@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Classroom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #070c0a;
+            user-select: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/pikachu.webp") center/cover no-repeat;
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 0;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            gap: 4px;
+            transform: translateY(-2vh);
+        }
+
+        .logo {
+            font-size: 46px;
+            color: #e8f2ee;
+            letter-spacing: 2px;
+            text-transform: lowercase;
+            text-shadow: 0 0 20px rgba(63,127,99,0.25);
+        }
+
+        .logo em {
+            font-style: normal;
+            color: #5fae87;
+        }
+
+        .buttons {
+            margin-top: 26px;
+            width: 100%;
+            max-width: 520px;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 18px;
+            border-radius: 999px;
+            text-decoration: none;
+            color: #e8f2ee;
+            background: rgba(63,127,99,0.18);
+            border: 1px solid rgba(95,174,135,0.25);
+            font-size: 14px;
+            text-transform: lowercase;
+            white-space: nowrap;
+            transition: transform 0.18s ease, background 0.18s ease;
+            will-change: transform;
+        }
+
+        .btn:hover {
+            background: rgba(95,174,135,0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-study {
+            justify-self: end;
+        }
+
+        .btn-apps {
+            justify-self: center;
+        }
+
+        .btn-settings {
+            justify-self: start;
+        }
+
+        .socials {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            z-index: 999;
+        }
+
+        .socials a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(95, 174, 135, 0.2);
+            color: #e8f2ee;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.15s ease;
+        }
+
+        .socials a:hover {
+            background: rgba(95, 174, 135, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .socials i {
+            font-size: 14px;
+        }
+
+        .online {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(95, 174, 135, 0.2);
+            color: #e8f2ee;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 999;
+            transition: 0.15s ease;
+        }
+
+        .online:hover {
+            background: rgba(95, 174, 135, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .online span {
+            color: #5fae87;
+            font-size: 13px;
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/storage/js/new.js"></script>
+    <div class="online">
+    online users: <span id="online-count">0</span>
+    </div>
+    <div class="wrap">
+        <div class="logo">xy<em>lora</em></div>
+        <div class="buttons">
+            <a class="btn btn-study" href="study.html">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                browse study
+            </a>
+            <a class="btn btn-apps" href="apps.html">
+                <i class="fa-solid fa-th-large"></i>
+                apps
+            </a>
+            <a class="btn btn-settings" href="settings.html">
+                <i class="fa-solid fa-gear"></i>
+                settings
+            </a>
+        </div>
+    </div>
+    <div class="socials">
+        <a href="credits.html">
+            <i class="fa-solid fa-heart"></i>
+            <span>credits</span>
+        </a>
+        <a href="https://discord.gg/3CDcBgQ6p6" target="_blank">
+            <i class="fa-brands fa-discord"></i>
+            <span>discord</span>
+        </a>
+        <a href="https://tiktok.com/@xyloranetwork" target="_blank">
+            <i class="fa-brands fa-tiktok"></i>
+            <span>tiktok</span>
+        </a>
+    </div>
+    <script>
+        window.addEventListener("message", (event) => {
+        if (!event.data || event.data.type !== "online-users") return;
+
+        const el = document.getElementById("online-count");
+        if (el) el.textContent = event.data.count;
+        });
+    </script>
+    <canvas id="stars"></canvas>
+    <script>
+        const canvas = document.getElementById('stars'),
+        ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth,
+        h = canvas.height = window.innerHeight;
+
+        const stars = Array.from({length:200}, () => ({
+        x: Math.random()*w, y: Math.random()*h,
+        r: Math.random()*1.2+0.3,
+        vx: (Math.random()-0.5)*0.15,
+        vy: (Math.random()-0.5)*0.15,
+        o: Math.random()*0.8+0.2
+        }));
+
+        function animateStars() {
+        ctx.clearRect(0,0,w,h);
+        stars.forEach(s => {
+            s.x+=s.vx; s.y+=s.vy;
+            if(s.x<0||s.x>w) s.vx*=-1;
+            if(s.y<0||s.y>h) s.vy*=-1;
+            ctx.beginPath();
+            ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fillStyle = `rgba(95,174,135, ${s.o + Math.sin(Date.now()/1000 + s.x)*0.1})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        });
+
+        animateStars();
+    </script>
+   <script>
+        (async function() {
+            const adFreeKey = localStorage.getItem("adFreeKey");
+            if (adFreeKey) {
+                try {
+                    const res = await fetch('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/validate-key', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: adFreeKey })
+                    });
+                    if (!res.ok) throw new Error('Server error');
+                    const data = await res.json();
+                    if (data.success) {
+                        console.log('yay u have premium');
+                        return;
+                    }
+                    console.log('stop larping premium');
+                    localStorage.removeItem('adFreeKey');
+                } catch (err) {}
+            }
+            console.log('imagine not having premium');
+            const s1 = document.createElement('script');
+            s1.src = 'https://cdn.jsdelivr.net/gh/docklib/partners@master/partner-9e801bab.js';
+            document.body.appendChild(s1);
+            const s2 = document.createElement('script');
+            s2.async = true;
+            s2.src = 'https://cdn.abdct.com/tag.js';
+            s2.dataset.key = 'trk_b250438b46c0456687560b6a';
+            document.body.appendChild(s2);
+            const s3 = document.createElement('script');
+            s3.src = 'https://pl29313275.profitablecpmratenetwork.com/d7/26/36/d72636e4a5a9ceffade2057369bbeac6.js';
+            document.body.appendChild(s3);
+            const s4 = document.createElement('script');
+            s4.async = true;
+            s4.src = 'https://cdn.jsdelivr.net/gh/docklib/v2@master/partner-9e801bab.js';
+            s4.dataset.wBottom = '10px';
+            s4.dataset.wLeft = '10px';
+            document.body.appendChild(s4);
+        })();
+    </script>
+</body>
+</html>

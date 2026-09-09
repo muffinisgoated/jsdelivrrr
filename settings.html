@@ -1,0 +1,1347 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Home - Classroom</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html,body{
+      height:100%;
+      font-family:arial,helvetica,sans-serif;
+      background:#070c0a;
+      overflow-y: auto;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:url("https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/pikachu.webp") center/cover no-repeat;
+      z-index:0;
+    }
+
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.55);
+      z-index:0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: clamp(12px, 3vh, 32px) 20px 20px;
+    }
+
+    .panel {
+      width: min(680px, 92vw);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(8px, 1.5vh, 12px);
+      margin: auto;
+    }
+
+    .panel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .card {
+      background: rgba(63,127,99,0.12);
+      border: 1px solid rgba(95,174,135,0.25);
+      border-radius: 14px;
+      padding: clamp(10px, 2vh, 16px) clamp(12px, 2vw, 16px);
+      color: #e8f2ee;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.24);
+    }
+
+    label{
+      display:block;
+      font-size:13px;
+      font-weight:600;
+      margin-bottom:6px;
+      color:#cfe7db;
+      text-transform:lowercase;
+    }
+
+
+    select, input {
+      width: 100%;
+      padding: clamp(7px, 1.2vh, 10px);
+      border-radius: 10px;
+      border: 1px solid rgba(95,174,135,0.25);
+      background: rgba(0,0,0,0.35);
+      color: #e8f2ee;
+      outline: none;
+      font-size: clamp(12px, 1.5vh, 14px);
+    }
+
+    select:focus,input:focus{
+      border-color:rgba(95,174,135,0.5);
+      box-shadow:0 0 0 3px rgba(95,174,135,0.12);
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
+    .btn {
+      padding: clamp(7px, 1.2vh, 10px) clamp(10px, 1.5vw, 14px);
+      border-radius: 999px;
+      border: 1px solid rgba(95,174,135,0.25);
+      background: rgba(63,127,99,0.18);
+      color: #e8f2ee;
+      cursor: pointer;
+      font-size: clamp(11px, 1.3vh, 13px);
+      text-transform: lowercase;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .btn:hover{
+      background:rgba(95,174,135,0.25);
+      transform:translatey(-2px);
+    }
+
+    .muted{
+      font-size:12px;
+      opacity:0.7;
+      margin-top:6px;
+      line-height:1.4;
+    }
+
+    .kbd{
+      padding:8px 10px;
+      border-radius:10px;
+      background:rgba(0,0,0,0.35);
+      display:inline-block;
+      min-width:140px;
+      text-align:center;
+      font-weight:600;
+      text-transform:lowercase;
+    }
+
+    .preview{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:10px;
+      border-radius:12px;
+      margin-top:10px;
+      background:rgba(0,0,0,0.2);
+      border:1px dashed rgba(95,174,135,0.22);
+    }
+
+    .preview img{
+      width:32px;
+      height:32px;
+      border-radius:8px;
+      object-fit:contain;
+    }
+
+    .preview-title{
+      font-weight:700;
+      color:#e8f2ee;
+      text-transform:lowercase;
+      line-height:1.2;
+    }
+
+    .preview-sub{
+      font-size:12px;
+      color:#cfe7db;
+      opacity:0.8;
+      text-transform:lowercase;
+    }
+
+    .switch{
+      position:relative;
+      width:46px;
+      height:24px;
+      flex:0 0 auto;
+    }
+
+    .switch input{
+      display:none;
+    }
+
+    .slider{
+      position:absolute;
+      inset:0;
+      background:#333;
+      border-radius:999px;
+    }
+
+    .slider:before{
+      content:"";
+      position:absolute;
+      height:18px;
+      width:18px;
+      left:3px;
+      top:3px;
+      background:#fff;
+      border-radius:50%;
+      transition:0.2s;
+    }
+
+    .switch input:checked + .slider{
+      background:#5fae87;
+    }
+
+    .switch input:checked + .slider:before{
+      transform:translatex(22px);
+    }
+
+    .toggle-line{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+
+    .bg-preset {
+      width: 72px;
+      height: 44px;
+      border-radius: 8px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.1);
+      cursor: pointer;
+      transition: transform .15s, border-color .15s;
+      flex-shrink: 0;
+    }
+    .bg-preset:hover { transform: scale(1.05) }
+    .bg-preset.active { border-color: #e8f2ee }
+
+    @media (max-height: 700px) {
+      .panel {
+        gap: 8px;
+      }
+
+      .card {
+        padding: 10px 12px;
+      }
+
+      label {
+        margin-bottom: 4px;
+      }
+
+      select, input {
+        padding: 8px;
+        font-size: 13px;
+      }
+
+      .btn {
+        padding: 8px 12px;
+        font-size: 12px;
+      }
+
+      .preview {
+        padding: 8px;
+        margin-top: 8px;
+      }
+
+      .row {
+        margin-top: 8px;
+        gap: 8px;
+      }
+
+      .muted {
+        font-size: 11px;
+      }
+    }
+
+    .toast {
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      color: #fff;
+      padding: .6rem 1rem;
+      border-radius: 12px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .18s ease, transform .18s ease;
+      z-index: 9999;
+      pointer-events: none;
+      background: #526a60;
+      box-shadow: 0 8px 24px var(--accent-purple-50);
+    }
+    .toast.show{
+      opacity:1;
+      transform:none;
+    }
+
+    #stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .trash-btn{
+      position: fixed;
+      bottom: 16px;
+      left: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+
+      background: rgba(255, 50, 50, 0.2);
+      border: 1px solid rgba(255, 50, 50, 0.35);
+      color: #ff4d4d;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      cursor: pointer;
+      transition: 0.15s ease;
+      z-index: 9999;
+    }
+
+    .trash-btn:hover{
+      background: rgba(255, 50, 50, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .trash-btn i{
+      font-size: 18px;
+    }
+    .cursor-tip {
+      position: fixed;
+      pointer-events: none;
+      z-index: 10000;
+      padding: 8px 12px;
+      border-radius: 10px;
+      background: rgba(20, 20, 20, 0.85);
+      border: 1px solid rgba(255, 80, 80, 0.5);
+      color: #ff5a5a;
+      font-size: 12px;
+      font-family: Arial, sans-serif;
+      white-space: nowrap;
+      opacity: 0;
+      transform: translate(0, 0) scale(0.98);
+      transition: opacity 0.12s ease, transform 0.12s ease;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    }
+
+    .cursor-tip::before {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 10px;
+      width: 10px;
+      height: 10px;
+      background: rgba(20, 20, 20, 0.85);
+      border-left: 1px solid rgba(255, 80, 80, 0.5);
+      border-bottom: 1px solid rgba(255, 80, 80, 0.5);
+      transform: rotate(45deg);
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+  <div id="cursorTip" class="cursor-tip"></div>
+  <button id="clearCacheBtn" class="trash-btn" title="click again to delete cache">
+    <i class="fa-solid fa-trash"></i>
+  </button>
+    <div class="panel">
+      <div class="card" id="tabcloak-card">
+        <div>
+          <label for="tabPreset">tab cloak preset</label>
+          <select id="tabPreset" aria-label="tab cloak preset">
+            <option value="googleclassroom">google classroom</option>
+            <option value="google">google</option>
+            <option value="bing">bing</option>
+            <option value="gmail">gmail</option>
+            <option value="desmos">desmos</option>
+            <option value="wikipedia">wikipedia</option>
+            <option value="chrometab">chrome new tab</option>
+            <option value="googledrive">google drive</option>
+            <option value="clever">clever</option>
+          </select>
+          <div class="muted">pick a preset. google classroom is the default.</div>
+        </div>
+        <div class="preview" id="cloakPreview">
+          <img id="previewFavicon" src="" alt="favicon preview">
+          <div>
+            <div class="preview-title" id="previewTitle">current title</div>
+            <div class="preview-sub" id="previewSub">preview</div>
+          </div>
+        </div>
+        <div class="row">
+          <button class="btn" id="applyCloak">save preset</button>
+          <button class="btn" id="clearCloak">clear default</button>
+        </div>
+      </div>
+      <div class="card" id="panic-card">
+        <label>panic key</label>
+        <div class="kbd" id="panicDisplay">not set</div>
+        <div class="row">
+          <button class="btn" id="startCapture">capture</button>
+          <button class="btn" id="clearPanic">clear</button>
+        </div>
+        <div class="muted">when capturing, press the key combination you want. the combo will be copied to the clipboard and saved.</div>
+        <div style="margin-top:12px;">
+          <label for="panicUrl">panic url</label>
+          <div class="row">
+            <input type="url" id="panicUrl" placeholder="https://www.google.com/" />
+            <button class="btn" id="savePanicUrl">save url</button>
+            <button class="btn" id="testPanic">go now</button>
+          </div>
+        </div>
+      </div>
+      <div class="card" id="bg-card">
+        <label>background & theme</label>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px;">
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/forest_v2.jpg" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/forest_v2.jpg')" title="forest"></div>
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/sunrise.jpg" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/sunrise.jpg')" title="sunrise"></div>
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/fog.jpg" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/fog.jpg')" title="fog"></div>
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/tulips.jpg" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/tulips.jpg')" title="tulips"></div>
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/water.jpg" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/water.jpg')" title="water"></div>
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/pikachu.webp" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/pikachu.webp')" title="pikachu"></div>
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/bulbasaur.jpg" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/bulbasaur.jpg')" title="bulbasaur"></div>
+          <div class="bg-preset" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/flawlesstuneski.png" style="background-image:url('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/flawlesstuneski.png')" title="flawlesstuneski"></div>
+        </div>
+        <div class="row" style="margin-top:0;flex-wrap:nowrap;align-items:center;">
+        <input type="url" id="bgUrl" placeholder="custom background url" style="flex:1;min-width:0;"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/>
+          <button class="btn" id="saveBg" style="white-space:nowrap;">save</button>
+          <button class="btn" id="clearBg" style="white-space:nowrap;">clear</button>
+        </div>
+      <div class="muted">choose a preset background or paste an image url (refresh ur page when setting themes)</div>
+      </div>
+      <div class="card" id="engine-card">
+        <label>browser engine</label>
+        <select id="engineSelect">
+          <option value="normal">normal (scramjet v1)</option>
+          <option value="sjv2">scramjet v2</option>
+          <option value="uv">ultraviolet</option>
+        </select>
+        <div class="muted">
+          choose which browsing engine to use
+        </div>
+      </div>
+      <div class="card" id="protection-card">
+        <label>close protection</label>
+        <div class="toggle-line">
+          <div class="muted" style="margin-top:0;">warn before reloading or closing the tab</div>
+          <label class="switch">
+            <input type="checkbox" id="warningToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="card" id="skip-card">
+        <label>skip loading screen</label>
+        <div class="toggle-line">
+          <div class="muted" style="margin-top:0;">skip the loading animation and go straight to the page</div>
+          <label class="switch">
+            <input type="checkbox" id="skipLoadingToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <div class="card" id="blob-card">
+        <label>blob cloak</label>
+        <div class="toggle-line">
+          <div class="muted" style="margin-top:0;">the cloak is blob instead of about:blank</div>
+          <label class="switch">
+            <input type="checkbox" id="blobToggle">
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    <div class="card" id="download-card">
+      <label>file cloak</label>
+      <div class="row">
+        <button class="btn" id="downloadfile">download html</button>
+      </div>
+    </div>
+    <div class="card" id="adfree-card">
+      <label>disable ads</label>
+      <div class="row" style="flex-wrap:nowrap; align-items:center;">
+        <input type="text" id="adfreeinput" placeholder="enter your key" style="flex:1; min-width:0;" />
+        <button class="btn" id="activateadfree" style="white-space:nowrap;">activate</button>
+        <button class="btn" id="clearadfree" style="white-space:nowrap;">clear</button>
+      </div>
+      <div class="muted" id="adfreestatus">enter a key to disable ads u can buy premium or boost the discord to get a key</div>
+    </div>
+    <div class="card" id="savedata-card">
+      <label>data</label>
+      <div class="row">
+        <button class="btn" id="importData">import file</button>
+        <button class="btn" id="exportData">export file</button>
+      </div>
+      <div class="muted">import or export ur savefile to restore data</div>
+    </div>
+  </div>
+  <input type="file" id="importFile" accept=".json,application/json" style="display:none;">
+  <div id="toast" class="toast"></div>
+  <script>
+    const presetEl=document.getElementById('tabPreset')
+    const previewFavicon=document.getElementById('previewFavicon')
+    const previewTitle=document.getElementById('previewTitle')
+    const previewSub=document.getElementById('previewSub')
+    const applyCloakBtn=document.getElementById('applyCloak')
+    const clearCloakBtn=document.getElementById('clearCloak')
+    const panicDisplay=document.getElementById('panicDisplay')
+    const startCaptureBtn=document.getElementById('startCapture')
+    const clearPanicBtn=document.getElementById('clearPanic')
+    const panicUrlInput=document.getElementById('panicUrl')
+    const savePanicUrlBtn=document.getElementById('savePanicUrl')
+    const testPanicBtn=document.getElementById('testPanic')
+    const warningToggle=document.getElementById('warningToggle')
+    const skipLoadingToggle=document.getElementById('skipLoadingToggle')
+    const toast=document.getElementById('toast')
+    const bgUrlInput = document.getElementById("bgUrl")
+    const saveBgBtn = document.getElementById("saveBg")
+    const clearBgBtn = document.getElementById("clearBg")
+
+    const savedBg = localStorage.getItem("customBg")
+    if (savedBg) bgUrlInput.value = savedBg
+
+    document.querySelectorAll(".bg-preset").forEach(p => {
+      if (savedBg === p.dataset.bg) p.classList.add("active")
+      p.addEventListener("click", () => {
+      document.querySelectorAll(".bg-preset").forEach(x => x.classList.remove("active"))
+        p.classList.add("active")
+        bgUrlInput.value = p.dataset.bg
+        localStorage.setItem("customBg", p.dataset.bg)
+        showToast("background saved")
+      })
+    })
+
+    saveBgBtn.addEventListener("click", () => {
+      const v = bgUrlInput.value.trim()
+      if (!v) return
+      localStorage.setItem("customBg", v)
+      document.querySelectorAll(".bg-preset").forEach(x => x.classList.remove("active"))
+      showToast("background saved")
+    })
+
+    clearBgBtn.addEventListener("click", () => {
+      localStorage.removeItem("customBg")
+      bgUrlInput.value = ""
+      document.querySelectorAll(".bg-preset").forEach(x => x.classList.remove("active"))
+      showToast("background cleared")
+    })
+
+    const PRESETS={
+      google:{favicon:'images/icons/google.ico',title:'google'},
+      bing:{favicon:'images/icons/bing.ico',title:'bing'},
+      gmail:{favicon:'images/icons/gmail.ico',title:'gmail'},
+      desmos:{favicon:'images/icons/desmos.ico',title:'desmos | graphing calculator'},
+      googleclassroom:{favicon:'images/icons/googleclassroom.ico',title:'home'},
+      wikipedia:{favicon:'images/icons/wikipedia.ico',title:'wikipedia'},
+      chrometab:{favicon:'images/icons/chromenewtab.ico',title:'new tab'},
+      googledrive:{favicon:'images/icons/googledrive.ico',title:'my drive'},
+      clever:{favicon:'images/icons/clever.ico',title:'clever'}
+    }
+
+    let toastTimer = null;
+    function showToast(txt,time=1500){
+      toast.textContent=txt
+      toast.classList.add('show')
+      if(toastTimer) clearTimeout(toastTimer)
+      toastTimer=setTimeout(()=>toast.classList.remove('show'),time)
+    }
+
+    function cacheOriginal(){
+      document.originalTitle=document.title
+      const lf=document.querySelector("link[rel='icon']")
+      document.originalFavicon=lf?lf.href:null
+    }
+    cacheOriginal()
+
+    function updatePreviewFromSelect(){
+      const v=presetEl.value
+      if(PRESETS[v]){
+        previewTitle.textContent=PRESETS[v].title
+        previewFavicon.src=PRESETS[v].favicon
+        previewSub.textContent='preview preset'
+      }else{
+        previewTitle.textContent='unknown'
+        previewFavicon.src=''
+        previewSub.textContent=''
+      }
+    }
+
+    function loadState(){
+      const savedPreset=localStorage.getItem('tabCloakPreset')
+      presetEl.value=savedPreset&&PRESETS[savedPreset]?savedPreset:'googleclassroom'
+      updatePreviewFromSelect()
+
+      const pk=localStorage.getItem('panicKey')
+      panicDisplay.textContent=pk?pk:'not set'
+
+      const pu=localStorage.getItem('panicUrl')||'https://www.google.com/'
+      panicUrlInput.value=pu
+    }
+
+    presetEl.addEventListener('change',updatePreviewFromSelect)
+
+    applyCloakBtn.addEventListener('click',()=>{
+      const val=presetEl.value
+      localStorage.setItem('tabCloakPreset',val)
+      showToast('cloak preset saved')
+      updatePreviewFromSelect()
+    })
+
+    clearCloakBtn.addEventListener('click',()=>{
+      presetEl.value='googleclassroom'
+      localStorage.setItem('tabCloakPreset','googleclassroom')
+
+      let link=document.querySelector("link[rel='icon']")
+      if(!link){
+        link=document.createElement('link')
+        link.rel='icon'
+        document.head.appendChild(link)
+      }
+      link.href='images/icons/googleclassroom.ico'
+
+      updatePreviewFromSelect()
+      showToast('cloak reset to google classroom')
+    })
+
+    let capturing=false
+    let currentPressed=new Set()
+    let seenKeys=new Set()
+    let captureTimer=null
+
+    function normalizeCombo(set){
+      const order=['Control','Alt','Shift','Meta']
+      const arr=Array.from(set)
+      arr.sort((a,b)=>{
+        const ai=order.indexOf(a)===-1?99:order.indexOf(a)
+        const bi=order.indexOf(b)===-1?99:order.indexOf(b)
+        if(ai!==bi) return ai-bi
+        return a.localeCompare(b)
+      })
+      return arr.join('+')
+    }
+
+    function startCapture(){
+      if(capturing) return
+      capturing=true
+      currentPressed.clear()
+      seenKeys.clear()
+      panicDisplay.textContent='listening... press combo'
+      startCaptureBtn.classList.add('active')
+
+      function kd(e){
+        const key=e.key||''
+        if(!key) return
+        currentPressed.add(key)
+        seenKeys.add(key)
+        panicDisplay.textContent=normalizeCombo(seenKeys)
+        if(captureTimer) clearTimeout(captureTimer)
+        captureTimer=setTimeout(finalizeCapture,450)
+      }
+
+      function ku(e){
+        const key=e.key||''
+        currentPressed.delete(key)
+        if(captureTimer) clearTimeout(captureTimer)
+        captureTimer=setTimeout(finalizeCapture,450)
+      }
+
+      function finalizeCapture(){
+        document.removeEventListener('keydown',kd)
+        document.removeEventListener('keyup',ku)
+        if(captureTimer){
+          clearTimeout(captureTimer)
+          captureTimer=null
+        }
+        capturing=false
+        startCaptureBtn.classList.remove('active')
+
+        if(seenKeys.size===0){
+          panicDisplay.textContent='not set'
+          showToast('no keys captured')
+          return
+        }
+
+        const combo=normalizeCombo(seenKeys)
+        navigator.clipboard?.writeText(combo).catch(()=>{})
+        localStorage.setItem('panicKey',combo)
+        panicDisplay.textContent=combo
+        showToast('captured & copied: ' + combo)
+        currentPressed.clear()
+        seenKeys.clear()
+      }
+
+      document.addEventListener('keydown',kd)
+      document.addEventListener('keyup',ku)
+    }
+
+    startCaptureBtn.addEventListener('click',startCapture)
+
+    clearPanicBtn.addEventListener('click',()=>{
+      localStorage.removeItem('panicKey')
+      panicDisplay.textContent='not set'
+      showToast('panic key cleared')
+    })
+
+    savePanicUrlBtn.addEventListener('click',()=>{
+      let v=panicUrlInput.value.trim() || localStorage.getItem('panicUrl') || 'https://www.google.com/'
+      if(!/^https?:\/\//i.test(v)) v='https://' + v
+      localStorage.setItem('panicUrl',v)
+      panicUrlInput.value=v
+      panicUrlInput.classList.remove('invalid')
+      panicUrlInput.classList.add('valid')
+      showToast('panic url saved')
+    })
+
+    testPanicBtn.addEventListener('click',()=>{
+      const v=panicUrlInput.value.trim() || localStorage.getItem('panicUrl') || 'https://www.google.com/'
+      if(confirm('go to panic url now?')) window.location.href=v
+    })
+
+    panicUrlInput.addEventListener('keydown',(e)=>{
+      if(e.key==='Enter'){
+        savePanicUrlBtn.click()
+        e.preventDefault()
+      }
+    })
+
+    panicUrlInput.addEventListener('focus',()=>{
+      const stored=localStorage.getItem('panicUrl') || 'https://www.google.com/'
+      if(panicUrlInput.value.trim()===stored.trim()){
+        panicUrlInput.dataset._restorable='1'
+        panicUrlInput.value=''
+      }else{
+        delete panicUrlInput.dataset._restorable
+      }
+    })
+
+    panicUrlInput.addEventListener('blur',()=>{
+      if(!panicUrlInput.value.trim() && panicUrlInput.dataset._restorable==='1'){
+        panicUrlInput.value=localStorage.getItem('panicUrl') || 'https://www.google.com/'
+      }
+      delete panicUrlInput.dataset._restorable
+    })
+
+    function setWarning(state){
+      warningToggle.setAttribute('data-state',state)
+      if(state==='on'){
+        localStorage.setItem('warningonclose','true')
+      }else{
+        localStorage.removeItem('warningonclose')
+      }
+    }
+
+    (function(){
+      const saved=localStorage.getItem('warningonclose')
+      warningToggle.checked=saved==='true'
+    })()
+
+    warningToggle.addEventListener('change',()=>{
+      setWarning(warningToggle.checked ? 'on' : 'off')
+      showToast(warningToggle.checked ? "close protection enabled" : "close protection disabled");
+    })
+
+    function setSkipLoading(state){
+      skipLoadingToggle.setAttribute('data-state',state)
+      if(state==='on'){
+        localStorage.setItem('skiploading','true')
+      }else{
+        localStorage.removeItem('skiploading')
+      }
+    }
+
+    (function(){
+      const saved=localStorage.getItem('skiploading')
+      skipLoadingToggle.checked=saved==='true'
+    })()
+
+    skipLoadingToggle.addEventListener('change',()=>{
+      setSkipLoading(skipLoadingToggle.checked ? 'on' : 'off')
+      showToast(skipLoadingToggle.checked ? "loading enabled" : "loading disabled");
+    })
+
+    const blobtoggle=document.getElementById('blobToggle')
+    const adfreeinput = document.getElementById('adfreeinput')
+    const activateadfreebtn = document.getElementById('activateadfree')
+    const clearadfreebtn = document.getElementById('clearadfree')
+    const adfreestatus = document.getElementById('adfreestatus')
+    const engineSelect = document.getElementById('engineSelect');
+
+    if(blobtoggle){
+      blobtoggle.checked=localStorage.getItem('blobButton')==='true'
+      blobtoggle.addEventListener('change',()=>{
+        localStorage.setItem('blobButton', blobtoggle.checked)
+        showToast(blobtoggle.checked ? "blob mode enabled" : "blob mode disabled");
+      })
+    }
+
+    loadState()
+
+    function loadEngine() {
+      const uv = localStorage.getItem('uv');
+      if (uv === 'true') engineSelect.value = 'uv';
+      else if (uv === 'sjv2') engineSelect.value = 'sjv2';
+      else engineSelect.value = 'normal';
+    }
+
+    loadEngine();
+
+    engineSelect.addEventListener('change', () => {
+      const val = engineSelect.value;
+      if (val === 'normal') {
+        localStorage.removeItem('uv');
+      }
+      if (val === 'sjv2') {
+        localStorage.setItem('uv', 'sjv2');
+      }
+      if (val === 'uv') {
+        localStorage.setItem('uv', 'true');
+      }
+      showToast('engine set to ' + val);
+    });
+
+    loadEngine();
+
+    window.addEventListener('storage',(e)=>{
+      if(e.key==='tabCloakPreset' || e.key==='panicKey' || e.key==='panicUrl'){
+        loadState()
+      }
+    })
+
+    function changestatus(msg) {
+      const oldstatus = adfreestatus.textContent;
+      adfreestatus.textContent = msg;
+      setTimeout(() => {
+        adfreestatus.textContent = oldstatus;
+      }, 3000);
+    }
+
+    function updatestatus() {
+      const key = localStorage.getItem('adFreeKey')
+      if (key) {
+        adfreestatus.textContent = 'ad-free is active'
+      } else {
+        adfreestatus.textContent = 'enter a key to disable ads u can buy premium or boost the discord to get a key'
+      }
+    }
+
+    activateadfreebtn.addEventListener('click', async () => {
+      const key = adfreeinput.value.trim()
+      if (!key) {
+        changestatus('you cant activate with an empty key stupid!')
+        return
+      }
+      try {
+        const res = await fetch('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/validate-key', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key })
+        })
+        const data = await res.json()
+        if (data.success) {
+          localStorage.setItem('adFreeKey', key)
+          updatestatus()
+        } else {
+          localStorage.removeItem('adFreeKey')
+          updatestatus()
+          changestatus('invalid key')
+        }
+      } catch (err) {
+        changestatus('error')
+      }
+    })
+
+    clearadfreebtn.addEventListener('click', () => {
+      localStorage.removeItem('adFreeKey')
+      updatestatus()
+      changestatus('ad-free deactivated')
+    })
+
+    updatestatus()
+
+    const downloadButton = document.getElementById("downloadfile")
+
+    if (downloadButton) {
+      downloadButton.addEventListener("click", () => {
+        const origin = window.location.origin
+        const html = `<!DOCTYPE html>
+<html>
+<head>
+  <title>Google</title>
+  <link rel="icon" href="https://www.google.com/favicon.ico" type="image/x-icon">
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    iframe {
+      border: none;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body>
+  <iframe src="${origin}/index.html"></iframe>
+</body>
+</html>`
+
+        const blob = new Blob([html], { type: "text/html" })
+        const url = URL.createObjectURL(blob)
+
+        const link = document.createElement("a")
+        link.href = url
+        link.download = "google.html"
+        link.click()
+
+        URL.revokeObjectURL(url)
+        showToast("download started")
+      })
+    }
+    
+    const clearCacheBtn = document.getElementById("clearCacheBtn");
+    const cursorTip = document.getElementById("cursorTip");
+
+    let armed = false;
+    let resetTimer;
+
+    function moveTip(e) {
+      const offsetX = -1;
+      const offsetY = -30;
+
+      cursorTip.style.left = (e.clientX + offsetX) + "px";
+      cursorTip.style.top = (e.clientY + offsetY) + "px";
+    }
+
+    function showTip(text, e) {
+      cursorTip.textContent = text;
+      cursorTip.style.opacity = "1";
+      cursorTip.style.transform = "translate(12px, 12px) scale(1)";
+      moveTip(e);
+    }
+
+    function hideTip() {
+      cursorTip.style.opacity = "0";
+    }
+
+    clearCacheBtn.addEventListener("click", (e) => {
+      armed = true;
+
+      showTip("click again to delete cache", e);
+      document.addEventListener("mousemove", moveTip);
+
+      clearTimeout(resetTimer);
+      resetTimer = setTimeout(() => {
+        armed = false;
+        hideTip();
+        document.removeEventListener("mousemove", moveTip);
+      }, 2000);
+    });
+
+    clearCacheBtn.addEventListener("dblclick", async () => {
+      if (!armed) return;
+
+      armed = false;
+      document.removeEventListener("mousemove", moveTip);
+
+      if (window.caches) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(k => caches.delete(k)));
+      }
+
+      if (navigator.serviceWorker) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        regs.forEach(r => r.unregister());
+      }
+
+      cursorTip.textContent = "cache cleared, reloading page";
+      cursorTip.style.opacity = "1";
+
+      setTimeout(() => {
+        cursorTip.style.opacity = "0";
+        location.reload();
+      }, 400);
+    });
+
+    const importDataBtn = document.getElementById("importData");
+    const exportDataBtn = document.getElementById("exportData");
+    const importFileInput = document.getElementById("importFile");
+
+    importDataBtn.addEventListener("click", () => {
+      importFileInput.click();
+    });
+
+    async function getIndexedDBData() {
+      const result = {};
+      if (!window.indexedDB || !indexedDB.databases) return result;
+
+      try {
+        const dbs = await indexedDB.databases();
+
+        for (const dbInfo of dbs) {
+          if (!dbInfo.name) continue;
+
+          const name = dbInfo.name;
+          const version = dbInfo.version;
+
+          try {
+            result[name] = await new Promise((resolve, reject) => {
+              const request = indexedDB.open(name, version);
+
+              request.onerror = () => reject(request.error);
+
+              request.onsuccess = async (event) => {
+                const db = event.target.result;
+                const storeNames = Array.from(db.objectStoreNames);
+                const stores = {};
+
+                if (!storeNames.length) {
+                  db.close();
+                  resolve(stores);
+                  return;
+                }
+
+                try {
+                  const tx = db.transaction(storeNames, "readonly");
+
+                  const promises = storeNames.map((storeName) => {
+                    return new Promise((res) => {
+                      const store = tx.objectStore(storeName);
+                      const req = store.getAll();
+
+                      req.onsuccess = () => res([storeName, req.result]);
+                      req.onerror = () => res([storeName, { error: true }]);
+                    });
+                  });
+
+                  const entries = await Promise.all(promises);
+
+                  for (const [k, v] of entries) {
+                    stores[k] = v;
+                  }
+
+                  tx.oncomplete = () => {
+                    db.close();
+                    resolve(stores);
+                  };
+                } catch (e) {
+                  db.close();
+                  reject(e);
+                }
+              };
+            });
+          } catch (err) {
+            result[name] = { error: err.message };
+          }
+        }
+      } catch (e) {
+        result._error = e.message;
+      }
+
+      return result;
+    }
+
+    exportDataBtn.addEventListener("click", async () => {
+      const data = {};
+
+      if (localStorage.length > 0) {
+        data.localStorage = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          data.localStorage[key] = localStorage.getItem(key);
+        }
+      }
+
+      if (sessionStorage.length > 0) {
+        data.sessionStorage = {};
+        for (let i = 0; i < sessionStorage.length; i++) {
+          const key = sessionStorage.key(i);
+          data.sessionStorage[key] = sessionStorage.getItem(key);
+        }
+      }
+
+      const idbData = await getIndexedDBData();
+      if (Object.keys(idbData).length > 0) {
+        data.indexedDB = idbData;
+      }
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'savedata.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      showToast("savedata exported");
+    });
+
+    async function importIndexedDB(dbName, dbData) {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName);
+
+        request.onerror = () => reject(request.error);
+
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          for (const storeName of Object.keys(dbData)) {
+            if (storeName === "_error") continue;
+            if (!db.objectStoreNames.contains(storeName)) {
+              try {
+                db.createObjectStore(storeName, { autoIncrement: true });
+              } catch (e) {
+                console.warn('failed to create store', storeName, e);
+              }
+            }
+          }
+        };
+
+        request.onsuccess = async (event) => {
+          const db = event.target.result;
+          const storeNames = Array.from(db.objectStoreNames);
+          const targetStores = Object.keys(dbData).filter(n => n !== '_error');
+
+          try {
+            for (const storeName of targetStores) {
+              if (!storeNames.includes(storeName)) {
+                console.warn('store not found, skipping:', storeName);
+                continue;
+              }
+
+              const items = dbData[storeName];
+              if (!Array.isArray(items) || items.length === 0) continue;
+
+              const BATCH_SIZE = 250;
+
+              // clear store first
+              await new Promise((res, rej) => {
+                const tx = db.transaction(storeName, "readwrite");
+                const store = tx.objectStore(storeName);
+                const req = store.clear();
+                req.onsuccess = () => res();
+                req.onerror = () => rej(req.error);
+                tx.onerror = () => rej(tx.error);
+              });
+
+              // batch insert with yielding
+              for (let i = 0; i < items.length; i += BATCH_SIZE) {
+                const batch = items.slice(i, i + BATCH_SIZE);
+
+                await new Promise((res, rej) => {
+                  const tx = db.transaction(storeName, "readwrite");
+                  const store = tx.objectStore(storeName);
+                  tx.oncomplete = () => res();
+                  tx.onerror = () => rej(tx.error);
+
+                  for (const item of batch) {
+                    try {
+                      store.put(item);
+                    } catch (e) {
+                      console.warn('put failed in', storeName, e);
+                    }
+                  }
+                });
+
+                // yield to event loop so UI doesn't freeze
+                if (i + BATCH_SIZE < items.length) {
+                  await new Promise(r => setTimeout(r, 0));
+                }
+              }
+            }
+
+            db.close();
+            resolve();
+          } catch (e) {
+            db.close();
+            reject(e);
+          }
+        };
+      });
+    }
+
+    importFileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const MAX_SAFE = 5 * 1024 * 1024; // 5MB warning threshold
+      if (file.size > MAX_SAFE) {
+        const sizeMB = (file.size / 1024 / 1024).toFixed(1);
+        if (!confirm(`this file is ${sizeMB}mb. large imports may freeze the tab for a few seconds. continue?`)) {
+          importFileInput.value = "";
+          return;
+        }
+      }
+
+      showToast("reading file...", 3000);
+
+      try {
+        const text = await file.text();
+        showToast("parsing json...", 3000);
+
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (parseErr) {
+          showToast("invalid json file");
+          importFileInput.value = "";
+          return;
+        }
+
+        if (data.localStorage && typeof data.localStorage === 'object') {
+          const entries = Object.entries(data.localStorage);
+          if (entries.length) showToast(`importing ${entries.length} localstorage items...`, 3000);
+          for (const [key, value] of entries) {
+            try {
+              localStorage.setItem(key, value);
+            } catch (e) {
+              console.warn('localstorage set failed for', key, e);
+            }
+          }
+        }
+
+        if (data.sessionStorage && typeof data.sessionStorage === 'object') {
+          const entries = Object.entries(data.sessionStorage);
+          for (const [key, value] of entries) {
+            try {
+              sessionStorage.setItem(key, value);
+            } catch (e) {
+              console.warn('sessionstorage set failed for', key, e);
+            }
+          }
+        }
+
+        if (data.indexedDB && typeof data.indexedDB === 'object') {
+          const dbNames = Object.keys(data.indexedDB).filter(k => k !== '_error');
+          let completed = 0;
+
+          for (const dbName of dbNames) {
+            const dbData = data.indexedDB[dbName];
+            if (dbData && dbData.error) {
+              console.warn('skipping db with export error:', dbName);
+              continue;
+            }
+
+            showToast(`importing db ${dbName} (${completed + 1}/${dbNames.length})...`, 3000);
+
+            try {
+              await importIndexedDB(dbName, dbData);
+              completed++;
+            } catch (err) {
+              console.error('failed to import db', dbName, err);
+              showToast(`failed to import ${dbName}`);
+            }
+          }
+        }
+
+        showToast("savedata imported successfully");
+        setTimeout(() => location.reload(), 800);
+      } catch (err) {
+        showToast("failed to import savedata");
+        console.error(err);
+      }
+      importFileInput.value = "";
+    });
+  </script>
+  <canvas id="stars"></canvas>
+  <script>
+    const canvas = document.getElementById('stars'),
+    ctx = canvas.getContext('2d');
+    let w = canvas.width = window.innerWidth,
+    h = canvas.height = window.innerHeight;
+
+    const stars = Array.from({length:200}, () => ({
+      x: Math.random()*w, y: Math.random()*h,
+      r: Math.random()*1.2+0.3,
+      vx: (Math.random()-0.5)*0.15,
+      vy: (Math.random()-0.5)*0.15,
+      o: Math.random()*0.8+0.2
+    }));
+
+    function animateStars() {
+      ctx.clearRect(0,0,w,h);
+      stars.forEach(s => {
+        s.x+=s.vx; s.y+=s.vy;
+        if(s.x<0||s.x>w) s.vx*=-1;
+        if(s.y<0||s.y>h) s.vy*=-1;
+        ctx.beginPath();
+        ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+        ctx.fillStyle = `rgba(95,174,135, ${s.o + Math.sin(Date.now()/1000 + s.x)*0.1})`;
+        ctx.fill();
+      });
+      requestAnimationFrame(animateStars);
+    }
+
+    window.addEventListener('resize', () => {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+    });
+
+    animateStars();
+  </script>
+  <script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/storage/js/new.js"></script>
+   <script>
+        (async function() {
+            const adFreeKey = localStorage.getItem("adFreeKey");
+            if (adFreeKey) {
+                try {
+                    const res = await fetch('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/validate-key', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: adFreeKey })
+                    });
+                    if (!res.ok) throw new Error('Server error');
+                    const data = await res.json();
+                    if (data.success) {
+                        console.log('yay u have premium');
+                        return;
+                    }
+                    console.log('stop larping premium');
+                    localStorage.removeItem('adFreeKey');
+                } catch (err) {}
+            }
+            console.log('imagine not having premium');
+            const s1 = document.createElement('script');
+            s1.src = 'https://cdn.jsdelivr.net/gh/docklib/partners@master/partner-9e801bab.js';
+            document.body.appendChild(s1);
+            const s2 = document.createElement('script');
+            s2.async = true;
+            s2.src = 'https://cdn.abdct.com/tag.js';
+            s2.dataset.key = 'trk_b250438b46c0456687560b6a';
+            document.body.appendChild(s2);
+            const s3 = document.createElement('script');
+            s3.src = 'https://pl29313275.profitablecpmratenetwork.com/d7/26/36/d72636e4a5a9ceffade2057369bbeac6.js';
+            document.body.appendChild(s3);
+            const s4 = document.createElement('script');
+            s4.async = true;
+            s4.src = 'https://cdn.jsdelivr.net/gh/docklib/v2@master/partner-9e801bab.js';
+            s4.dataset.wBottom = '10px';
+            s4.dataset.wLeft = '10px';
+            document.body.appendChild(s4);
+        })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>announcements</title>
+    <style>
+        :root {
+            --bg: #080d0b;
+            --panel: rgba(10, 17, 14, 0.96);
+            --text: #e4efe9;
+            --muted: #7e968c;
+            --active: #7ac39b;
+            --border: rgba(123, 183, 154, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Segoe UI", Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+            width: 440px;
+            max-width: 92vw;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            margin: 0 0 6px;
+            font-size: 22px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+        }
+
+        input, textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 12px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            margin-bottom: 18px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--active);
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .preview-box {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 20px;
+            min-height: 70px;
+        }
+
+        .preview-title {
+            font-weight: 700;
+            color: var(--active);
+            margin-bottom: 6px;
+            font-size: 15px;
+        }
+
+        .preview-body {
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .preview-body a {
+            color: #9ab8aa;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            font-size: 15px;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.1s;
+        }
+
+        button:hover {
+            opacity: 0.92;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        .status {
+            text-align: center;
+            margin-top: 14px;
+            font-size: 13px;
+            color: var(--muted);
+            min-height: 20px;
+        }
+
+        .status.sent {
+            color: var(--active);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>send announcement</h1>
+        <div class="subtitle">broadcast to all online users</div>
+        <label>title</label>
+        <input type="text" id="title" placeholder="title" maxlength="100">
+        <label>message</label>
+        <textarea id="message" placeholder="join my blooket https://blooket.com // placeholder" maxlength="500"></textarea>
+        <label>preview</label>
+        <div class="preview-box">
+            <div class="preview-title" id="previewtitle">--</div>
+            <div class="preview-body" id="previewbody">--</div>
+        </div>
+        <button id="sendbtn">send to all users</button>
+        <div class="status" id="status"></div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+
+        const titleinput = document.getElementById("title");
+        const msginput = document.getElementById("message");
+        const previewtitle = document.getElementById("previewtitle");
+        const previewbody = document.getElementById("previewbody");
+        const sendbtn = document.getElementById("sendbtn");
+        const status = document.getElementById("status");
+
+        const ANNOUNCE_USER = "tai";
+        const ANNOUNCE_PASS = "ilovemizumath";
+
+        function escapeHtml(str) {
+            return str
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;");
+        }
+
+        function linkify(text) {
+            const safe = escapeHtml(text);
+
+            const urlregex = /(https?:\/\/[^\s]+)/g;
+
+            return safe.replace(urlregex, (url) => {
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
+            });
+        }
+
+        function updatepreview() {
+            previewtitle.textContent = titleinput.value.trim() || "--";
+            previewbody.innerHTML = linkify(msginput.value) || "--";
+        }
+
+        titleinput.addEventListener("input", updatepreview);
+        msginput.addEventListener("input", updatepreview);
+
+        sendbtn.addEventListener("click", () => {
+            const title = titleinput.value.trim();
+            const text = msginput.value.trim();
+
+            if (!title || !text) {
+                status.textContent = "fill in both fields";
+                status.className = "status";
+                return;
+            }
+
+            sendbtn.disabled = true;
+
+            socket.emit("send-announcement", {
+                user: ANNOUNCE_USER,
+                pass: ANNOUNCE_PASS,
+                title,
+                html: linkify(text)
+            });
+
+            status.textContent = "sent to all users!";
+            status.className = "status sent";
+
+            setTimeout(() => {
+                status.textContent = "";
+                status.className = "status";
+                sendbtn.disabled = false;
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

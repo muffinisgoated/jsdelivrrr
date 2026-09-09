@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home - Classroom</title>
+    <base href="https://cdn.jsdelivr.net/gh/taiigo/xylora@main/">
+    <link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/icons/googleclassroom.ico">
+    <script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/socket.io/socket.io.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-4KW17KJ4EM"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-4KW17KJ4EM');
+    </script>
+    <meta name="description" content="a smooth, user-friendly website built for simple, fast, and modern web access.">
+    <style>
+        :root {
+            --bg: #080d0b;
+            --panel: rgba(10, 17, 14, 0.72);
+            --panel-border: rgba(123, 183, 154, 0.14);
+            --panel-shadow: 0 16px 48px rgba(0, 0, 0, 0.42);
+            --text: #e4efe9;
+            --muted: #7e968c;
+            --icon: #667d74;
+            --icon-hover: #9ab8aa;
+            --active: #7ac39b;
+            --active-bg: rgba(122, 195, 155, 0.14);
+            --hover-bg: rgba(122, 195, 155, 0.08);
+            --tip-bg: rgba(7, 12, 10, 0.96);
+            --tip-border: rgba(123, 183, 154, 0.16);
+            --toast-bg: rgba(12, 20, 17, 0.96);
+            --toast-shadow: rgba(0, 0, 0, 0.45);
+        }
+        html, body {
+            margin: 0;
+            height: 100%;
+            overflow: hidden;
+            background: #080d0b;
+            font-family: "Segoe UI", Arial, sans-serif;
+            user-select: none;
+        }
+        iframe {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            z-index: 0;
+        }
+        .taskbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 6px 14px;
+            background: var(--panel);
+            backdrop-filter: blur(18px) saturate(175%);
+            -webkit-backdrop-filter: blur(18px) saturate(175%);
+            border: 1px solid var(--panel-border);
+            border-radius: 18px;
+            z-index: 100;
+            box-shadow: var(--panel-shadow), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+        .taskbar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 13px;
+            border: none;
+            background: transparent;
+            color: #526a60;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            position: relative;
+        }
+        .taskbar-btn:focus,
+        .taskbar-btn:focus-visible {
+            outline: none;
+        }
+        .taskbar-btn:hover {
+            background: var(--hover-bg);
+            color: var(--icon-hover);
+            transform: translateY(-1px);
+        }
+        .taskbar-btn.active {
+            background: var(--active-bg);
+            color: var(--active);
+            box-shadow: 0 0 0 1px rgba(122, 195, 155, 0.12) inset, 0 8px 18px rgba(122, 195, 155, 0.08);
+        }
+        .taskbar-btn.active::after {
+            content: "";
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 12px;
+            height: 3px;
+            border-radius: 999px;
+            background: var(--active);
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(122, 195, 155, 0.55);
+        }
+        .taskbar-divider {
+            width: 1px;
+            height: 24px;
+            background: rgba(122, 195, 155, 0.644);
+            margin: 0 1px;
+        }
+        .taskbar-btn::before {
+            content: attr(data-tip);
+            left: 50%;
+            bottom: calc(100% + 10px);
+            transform: translateX(-50%) translateY(4px);
+            padding: 6px 10px;
+            border-radius: 10px;
+            background: var(--tip-bg);
+            border: 1px solid var(--tip-border);
+            color: var(--text);
+            font-size: 11px;
+            line-height: 1;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.14s ease, transform 0.14s ease;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .taskbar.hidden {
+            opacity: 0;
+            transform: translateX(-50%) translateY(16px);
+            pointer-events: none;
+        }
+        .toast {
+            position: fixed;
+            right: 16px;
+            bottom: 16px;
+            color: #fff;
+            padding: .6rem 1rem;
+            border-radius: 12px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity .18s ease, transform .18s ease;
+            z-index: 9999;
+            pointer-events: none;
+            background: #526a60;
+            box-shadow: 0 8px 24px var(--toast-shadow);
+            max-width: 320px;
+            word-wrap: break-word;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: none;
+        }
+        .toast a {
+            color: #7ac39b;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(122, 195, 155, 0.3);
+            transition: border-color 0.15s;
+        }
+        .toast a:hover {
+            border-bottom-color: #7ac39b;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/storage/js/new.js"></script>
+    <iframe id="frame" src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/home.html"></iframe>
+    <div class="taskbar" id="taskbar">
+        <button class="taskbar-btn" data-tip="home" data-src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/home.html">
+            <i class="fa-solid fa-house"></i>
+        </button>
+        <button class="taskbar-btn" data-tip="study" data-src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/study.html">
+            <i class="fa-solid fa-gamepad"></i>
+        </button>
+        <button class="taskbar-btn" data-tip="apps" data-src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps.html">
+            <i class="fa-solid fa-th-large"></i>
+        </button>
+        <button class="taskbar-btn" data-tip="chat" data-src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/chat.html">
+            <i class="fa-solid fa-comment"></i>
+        </button>
+        <button class="taskbar-btn" data-tip="browse" data-src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/browse.html">
+            <i class="fa-solid fa-globe"></i>
+        </button>
+        <div class="taskbar-divider"></div>
+        <button class="taskbar-btn" data-tip="settings" data-src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/settings.html">
+            <i class="fa-solid fa-gear"></i>
+        </button>
+        <button class="taskbar-btn" id="cloakBtn" data-tip="cloak">
+            <i class="fa-solid fa-shield-halved"></i>
+        </button>
+        <button class="taskbar-btn" id="closeTaskbar" data-tip="close">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script>
+        const toast = document.getElementById("toast");
+        const iframe = document.getElementById("frame");
+        const buttons = document.querySelectorAll(".taskbar-btn[data-src]");
+
+        function setActive(src) {
+            buttons.forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.src === src);
+            });
+        }
+
+        buttons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                let src = btn.dataset.src;
+                if (btn.dataset.tip === "browse") {
+                    const uv = localStorage.getItem("uv");
+                    if (uv === "true") {
+                        src = "https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/uv/browse.html";
+                    } else if (uv === "sjv2") {
+                        src = "https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/sjv2/browse.html";
+                    } else {
+                        src = "https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/browse.html";
+                    }
+                }
+                iframe.src = src;
+                setActive(src);
+            });
+        });
+
+        setActive("https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/home.html");
+
+        function syncActive() {
+            try {
+                const path = iframe.contentWindow.location.pathname;
+                if (path) setActive(path);
+            } catch (e) {
+                setActive(iframe.src);
+            }
+        }
+
+        iframe.addEventListener("load", syncActive);
+
+        const taskbar = document.getElementById("taskbar");
+        const toggleTaskbar = () => taskbar.classList.toggle("hidden");
+
+        document.getElementById("closeTaskbar").onclick = () => {
+            toggleTaskbar();
+            showToast("press \\ to reopen taskbar (above enter key)");
+        };
+
+        function handleBackslash(e) {
+            if (e.code === "Backslash" && !e.repeat) {
+                e.preventDefault();
+                toggleTaskbar();
+            }
+        }
+
+        window.addEventListener("keydown", handleBackslash, true);
+
+        function wireFrame() {
+            try {
+                const doc = iframe.contentDocument;
+                if (!doc) return;
+                doc.addEventListener("keydown", handleBackslash, true);
+            } catch (e) {}
+        }
+
+        iframe.addEventListener("load", wireFrame);
+        wireFrame();
+
+        let toastTimeout;
+
+        function showToast(txt, time = 1500) {
+            if (!toast) return;
+            toast.innerHTML = txt;
+            toast.classList.add("show");
+            toast.style.pointerEvents = "auto";
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.remove("show");
+                toast.style.pointerEvents = "none";
+            }, time);
+        }
+
+        document.getElementById("cloakBtn").addEventListener("click", () => {
+            localStorage.getItem("blobButton") === "true" ? openBlob() : openAbout();
+        });
+    </script>
+</body>
+</html>

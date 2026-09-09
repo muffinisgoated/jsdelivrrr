@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home - Classroom</title>
+<link rel="icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/icons/googleclassroom.ico">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/css/icons.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/css/chat.css">
+<script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/storage/js/new.js"></script>
+<script src="https://unpkg.com/twemoji@latest/dist/twemoji.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/js/cap.min.js"></script>
+</head>
+<body>
+
+<div class="auth" id="auth">
+  <form class="card" id="authForm">
+    <h1>xy<em>lora</em> chat</h1>
+    <div class="sub">log in to start talking</div>
+    <div class="tabs">
+      <button type="button" id="tabLogin" class="on">login</button>
+      <button type="button" id="tabReg">register</button>
+    </div>
+    <input id="authUser" placeholder="username" autocomplete="username" maxlength="20" pattern="[A-Za-z0-9_]{2,20}" title="2-20 letters, numbers, underscores">
+    <input id="authPass" type="password" placeholder="password" autocomplete="current-password">
+    <button class="btn" id="authGo">log in</button>
+    <div id="capWrap" style="display:none;justify-content:center;margin-top:12px">
+      <cap-widget id="capWidget" data-cap-api-endpoint="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/api/captcha" data-cap-theme="dark"></cap-widget>
+    </div>
+  </form>
+</div>
+
+<div class="app" id="app">
+  <aside class="side" id="side">
+    <div class="brand">
+      <span>xy<em>lora</em></span>
+    </div>
+    <div class="seclabel">channels</div>
+    <div class="list shrink" id="chanList"></div>
+    <div class="seclabel">friends<button id="addFriendBtn" title="find people"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></svg></button></div>
+    <div class="list grow" id="dmList"></div>
+    <div class="seclabel">groups<button id="addGroupBtn" title="create group"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7-7v14"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></svg></button></div>
+    <div class="list grow" id="groupList"></div>
+    <div class="me">
+      <span class="av" id="myAv"></span>
+      <div class="who">
+        <b id="myName"></b>
+        <small id="myStatus">online</small>
+      </div>
+      <button class="ibtn" id="settingsBtn" title="settings"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0a2.34 2.34 0 0 0 3.319 1.915a2.34 2.34 0 0 1 2.33 4.033a2.34 2.34 0 0 0 0 3.831a2.34 2.34 0 0 1-2.33 4.033a2.34 2.34 0 0 0-3.319 1.915a2.34 2.34 0 0 1-4.659 0a2.34 2.34 0 0 0-3.32-1.915a2.34 2.34 0 0 1-2.33-4.033a2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/><circle cx="12" cy="12" r="3"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></g></svg></button>
+    </div>
+  </aside>
+  <main class="chat">
+    <header class="top">
+      <span id="topIcon"></span>
+      <b id="topName"></b>
+      <span class="sp"></span>
+      <button class="ibtn" id="peopleBtn" title="members"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 21a8 8 0 0 1 10.434-7.62"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/><circle cx="10" cy="8" r="5"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/><path d="m16 19 2 2 4-4"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></g></svg></button>
+      <span id="topActs" style="display:flex;gap:4px"></span>
+    </header>
+    <div class="msgs" id="msgs"></div>
+    <button class="pill" id="scrollPill">jump to latest</button>
+    <footer class="entry">
+      <input id="entryInput" placeholder="message general" autocomplete="off" maxlength="2000">
+      <button class="send" id="sendBtn"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904zM6 12h16"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></svg></button>
+    </footer>
+  </main>
+  <aside class="people" id="people">
+    <div class="label" id="panelLabel">online - 0</div>
+    <div id="panelList"></div>
+  </aside>
+</div>
+
+<div class="overlay" id="userOv">
+  <div class="sheet">
+    <h2><span id="userOvTitle">find people</span><button class="ibtn" data-close><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6 6 18M6 6l12 12"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></svg></button></h2>
+    <div class="field"><input id="userSearch" placeholder="search usernames"><button class="sbtn ghost" id="userSearchGo">search</button></div>
+    <div id="userResults"></div>
+  </div>
+</div>
+
+<div class="overlay" id="jumpOv">
+  <div class="sheet small">
+    <h2>go to<button class="ibtn" data-close><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6 6 18M6 6l12 12"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></svg></button></h2>
+    <div class="field"><input id="jumpSearch" placeholder="type a channel, dm or group"></div>
+    <div id="jumpList"></div>
+  </div>
+</div>
+
+<div class="overlay confirm" id="inputOv">
+  <div class="sheet small">
+    <h2 id="inputTitle">name it</h2>
+    <div class="field"><input id="inputField" placeholder=""><button class="sbtn" id="inputGo">create</button></div>
+    <div class="field" style="justify-content:flex-end;margin-bottom:0">
+      <button class="sbtn ghost" id="inputNo">cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="settingsOv">
+  <div class="sheet">
+    <h2>settings<button class="ibtn" data-close><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6 6 18M6 6l12 12"https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/></svg></button></h2>
+    <div class="tabs"><button id="stAcc" class="on">my account</button><button id="stStaff" style="display:none">staff</button></div>
+    <div id="accTab">
+      <div class="acrow">
+        <span class="av" id="setAv" style="width:52px;height:52px;font-size:22px"></span>
+        <div>
+          <b id="setName" style="font-size:15px"></b>
+          <div style="color:var(--muted);font-size:12px" id="setRole"></div>
+        </div>
+      </div>
+      <label class="sbtn ghost" style="display:inline-block;width:auto;margin-bottom:14px;cursor:pointer">change pfp<input type="file" id="avFile" accept="image/*" hidden></label>
+      <h3>sounds</h3>
+      <div class="togglerow"><span>ping sound<small>beep when someone @pings you</small></span><button class="sbtn" id="beepBtn">on</button></div>
+      <h3>change password</h3>
+      <form id="passForm">
+        <div class="field"><input id="curPass" type="password" placeholder="current password" autocomplete="current-password"></div>
+        <div class="field"><input id="newPass" type="password" placeholder="new password" autocomplete="new-password"><button class="sbtn" type="submit">save</button></div>
+      </form>
+      <h3>session</h3>
+      <button class="sbtn warn" id="logoutBtn">log out</button>
+    </div>
+    <div id="staffTab" style="display:none">
+      <h3>moderation</h3>
+      <div class="togglerow"><span>lock chat<small>blocks non-staff from sending everywhere</small></span><button class="sbtn" id="lockBtn">unlocked</button></div>
+      <div class="togglerow"><span>registration<small>allow new accounts to sign up</small></span><button class="sbtn" id="regBtn">on</button></div>
+      <h3>wipe messages</h3>
+      <div class="field"><input id="wipeUser" placeholder="username"><button class="sbtn warn" id="wipeBtn">wipe</button></div>
+      <h3>users</h3>
+      <div class="field"><input id="modSearch" placeholder="search users"><button class="sbtn ghost" id="modGo">search</button></div>
+      <div id="modResults"></div>
+    </div>
+  </div>
+</div>
+
+<div class="overlay confirm" id="confirmOv">
+  <div class="sheet">
+    <h2>are you sure?</h2>
+    <p id="confirmTxt"></p>
+    <div class="field">
+      <button class="sbtn ghost" id="confirmNo">cancel</button>
+      <button class="sbtn warn" id="confirmYes">do it</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/storage/js/chat.js"></script>
+    <script>
+        (async function() {
+            const adFreeKey = localStorage.getItem("adFreeKey");
+            if (adFreeKey) {
+                try {
+                    const res = await fetch('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/validate-key', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: adFreeKey })
+                    });
+                    if (!res.ok) throw new Error('Server error');
+                    const data = await res.json();
+                    if (data.success) {
+                        console.log('yay u have premium');
+                        return;
+                    }
+                    console.log('stop larping premium');
+                    localStorage.removeItem('adFreeKey');
+                } catch (err) {}
+            }
+            console.log('imagine not having premium');
+            const s1 = document.createElement('script');
+            s1.async = true;
+            s1.src = 'https://cdn.jsdelivr.net/gh/docklib/v2@master/partner-9e801bab.js';
+            s1.dataset.wBottom = '10px';
+            s1.dataset.wLeft = '10px';
+            document.body.appendChild(s1);
+        })();
+    </script>
+</body>
+</html>

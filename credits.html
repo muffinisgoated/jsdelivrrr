@@ -1,0 +1,223 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Home - Classroom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            height: 100%;
+            user-select: none;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/water.jpg") center/cover no-repeat;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 0;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            text-align: center;
+            gap: 4px;
+            transform: translateY(-40px);
+        }
+
+        .logo {
+            font-size: 46px;
+            color: #e8f2ee;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(63,127,99,0.25);
+        }
+
+        .logo em {
+            font-style: normal;
+            color: #5fae87;
+        }
+
+        .text {
+            color: #e8f2eebf;
+            font-size: 14px;
+            letter-spacing: 1px;
+            max-width: 400px;
+        }
+
+        .text h3 {
+            margin: 0;
+            font-size: 16px;
+            color: #e8f2ee;
+        }
+
+        .text p {
+            margin: 10px 0 0;
+            font-size: 18px;
+            color: #e8f2eebf;
+        }
+
+        .link {
+            color: #5fae87;
+            text-decoration: none;
+        }
+
+        .link:hover {
+            color: #7fd6a8;
+        }
+
+        .online {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(95, 174, 135, 0.2);
+            color: #e8f2ee;
+            font-size: 13px;
+            font-weight: 600;
+            z-index: 999;
+            transition: 0.15s ease;
+        }
+
+        .online:hover {
+            background: rgba(95, 174, 135, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .online span {
+            color: #5fae87;
+            font-size: 13px;
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .socials {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            z-index: 999;
+        }
+
+        .socials a {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            background: rgba(95, 174, 135, 0.2);
+            color: #e8f2ee;
+            text-decoration: none;
+            font-size: 13px;
+            transition: 0.15s ease;
+        }
+
+        .socials a:hover {
+            background: rgba(95, 174, 135, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .socials i {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="online">
+        online users: <span id="online-count">0</span>
+    </div>
+    <div class="wrap">
+        <div class="logo">xy<em>lora</em></div>
+        <div class="text">
+            <h3>credits</h3>
+            <p>gn-math - games from (<a class="link" target="_blank" rel="noopener" href="https://gn-math.dev/">gn-math</a>)</p>
+            <p>seraph - games from (<a class="link" target="_blank" rel="noopener" href="https://github.com/a456pur/seraph">seraph</a>)</p>
+            <p>emii - dinosaur by (<a class="link" target="_blank" rel="noopener" href="https://www.youtube.com/channel/UCxFoboncgwvvu4Ir7hmY0Ow">emii</a>)</p>
+            <p>site made by .taii_</p>
+        </div>
+    </div>
+    <div class="socials">
+        <a href="https://discord.gg/3CDcBgQ6p6" target="_blank">
+            <i class="fa-brands fa-discord"></i>
+            <span>discord</span>
+        </a>
+        <a href="https://tiktok.com/@xyloranetwork" target="_blank">
+            <i class="fa-brands fa-tiktok"></i>
+            <span>tiktok</span>
+        </a>
+    </div>
+    <script>
+        window.addEventListener("message", (event) => {
+        if (!event.data || event.data.type !== "online-users") return;
+
+        const el = document.getElementById("online-count");
+        if (el) el.textContent = event.data.count;
+        });
+    </script>
+    <canvas id="stars"></canvas>
+    <script>
+        const canvas = document.getElementById('stars'),
+        ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth,
+        h = canvas.height = window.innerHeight;
+
+        const stars = Array.from({length:200}, () => ({
+        x: Math.random()*w, y: Math.random()*h,
+        r: Math.random()*1.2+0.3,
+        vx: (Math.random()-0.5)*0.15,
+        vy: (Math.random()-0.5)*0.15,
+        o: Math.random()*0.8+0.2
+        }));
+
+        function animateStars() {
+        ctx.clearRect(0,0,w,h);
+        stars.forEach(s => {
+            s.x+=s.vx; s.y+=s.vy;
+            if(s.x<0||s.x>w) s.vx*=-1;
+            if(s.y<0||s.y>h) s.vy*=-1;
+            ctx.beginPath();
+            ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fillStyle = `rgba(95,174,135, ${s.o + Math.sin(Date.now()/1000 + s.x)*0.1})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        });
+
+        animateStars();
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/storage/js/new.js"></script>
+</body>
+</html>

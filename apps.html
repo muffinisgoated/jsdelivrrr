@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Classroom</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #080d0b;
+            --panel: #0d1612;
+            --panel2: #121f1a;
+            --border: #1a2822;
+            --border2: #253830;
+            --accent: #3f7f63;
+            --accent2: #5fae87;
+            --text: #e8f2ee;
+            --muted: #526a60;
+            --muted2: #88a49a;
+            --glow: rgba(63, 127, 99, 0.18);
+        }
+
+        html, body {
+            min-height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: Arial, Helvetica, sans-serif;
+            user-select: none;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/themes/water.jpg") center/cover no-repeat;
+            z-index: 0;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            z-index: 0;
+        }
+
+        .wrap {
+            position: relative;
+            z-index: 1;
+        }
+
+        .top {
+            text-align: center;
+            padding: 52px 20px 24px;
+        }
+
+        .logo {
+            font-size: 38px;
+            font-weight: 700;
+            text-transform: lowercase;
+        }
+
+        .logo em {
+            font-style: normal;
+            color: var(--accent);
+        }
+
+        .sub {
+            margin-top: 7px;
+            font-size: 12px;
+            color: var(--muted2);
+            letter-spacing: 0.1em;
+        }
+
+        .search-wrap {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px;
+            position: relative;
+        }
+
+        .search-wrap i {
+            position: absolute;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--muted);
+        }
+
+        .search-wrap input {
+            width: 100%;
+            padding: 14px 16px 14px 44px;
+            border-radius: 12px;
+            border: 1px solid var(--border2);
+            background: var(--panel);
+            color: var(--text);
+            outline: none;
+        }
+
+        .search-wrap input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--glow);
+        }
+
+        .meta {
+            max-width: 900px;
+            margin: 10px auto 0;
+            padding: 0 24px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        #count {
+            color: var(--accent2);
+        }
+
+        .content {
+            max-width: 900px;
+            margin: auto;
+            padding: 18px 24px 60px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+        }
+
+        .card {
+            display: block;
+            text-decoration: none;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            overflow: hidden;
+            background: var(--panel2);
+            position: relative;
+            transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+        }
+
+        .card-img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .card-img::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: var(--thumb);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card-foot {
+            padding: 8px 10px 9px;
+            background: var(--panel2);
+            border-top: 1px solid var(--border);
+        }
+
+        .card-foot span {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text);
+            text-transform: lowercase;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 28px rgba(63, 127, 99, 0.2);
+        }
+
+        .empty {
+            display: none;
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        @media (max-width: 1000px) {
+            .grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 700px) {
+            .grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        #stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/storage/js/new.js"></script>
+    <div class="wrap">
+        <div class="top">
+            <div class="logo">xy<em>lora</em></div>
+            <div class="sub">apps</div>
+        </div>
+        <div class="search-wrap">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input id="search" type="text" placeholder="search apps..." autocomplete="off">
+        </div>
+        <div class="meta"><span id="count"></span></div>
+        <div class="content">
+            <div class="grid" id="grid">
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/htmlcoder.html" data-title="htmlcoder" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/htmlcoder.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>htmlcoder</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/localstorage.html" data-title="localstorage editor" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/htmlcoder.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>localstorage editor</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/soundcloud.html" data-title="soundcloud" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/soundcloud.jpg">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>soundcloud</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/coolmath.html" data-title="coolmath" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/coolmath.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>coolmath</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/crazy.html" data-title="crazyapps" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/crazyapps.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>crazyapps</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/tiktok.html" data-title="tiktok" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/tiktok.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>tiktok</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/geforce.html" data-title="geforce now" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/geforce.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>geforce now</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/nowggfun.html" data-title="nowgg.fun" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/nowgg.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>nowgg.fun</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/pstream.html" data-title="pstream" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/pstream.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>pstream</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/pluto.html" data-title="pluto tv" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/pluto.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>pluto tv</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/apps/netflix.html" data-title="netflix" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/netflix.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>netflix</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/uv/gauth.html" data-title="gauth" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/gauth.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>gauth</span></div>
+                </a>
+
+                <a class="card" href="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/uv/disc.html" data-title="discord" data-bg="https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/images/apps/disc.png">
+                    <div class="card-img"></div>
+                    <div class="card-foot"><span>discord</span></div>
+                </a>
+
+                <div class="empty"><i class="fa-solid fa-face-sad-tear"></i>no results</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const cards = document.querySelectorAll(".card");
+        const empty = document.querySelector(".empty");
+        const count = document.getElementById("count");
+        const search = document.getElementById("search");
+
+        cards.forEach(c => {
+            const img = c.querySelector(".card-img");
+            img.style.setProperty("--thumb", `url("${c.dataset.bg}")`);
+        });
+
+        function update() {
+            const q = search.value.toLowerCase().trim();
+            let show = 0;
+
+            cards.forEach(c => {
+                const ok = !q || c.dataset.title.includes(q);
+                c.style.display = ok ? "" : "none";
+                if (ok) show++;
+            });
+
+            empty.style.display = show ? "none" : "block";
+            count.textContent = show + " apps";
+        }
+
+        search.addEventListener("input", update);
+        update();
+    </script>
+    <canvas id="stars"></canvas>
+    <script>
+        const canvas = document.getElementById('stars'),
+        ctx = canvas.getContext('2d');
+        let w = canvas.width = window.innerWidth,
+        h = canvas.height = window.innerHeight;
+
+        const stars = Array.from({length:200}, () => ({
+        x: Math.random()*w, y: Math.random()*h,
+        r: Math.random()*1.2+0.3,
+        vx: (Math.random()-0.5)*0.15,
+        vy: (Math.random()-0.5)*0.15,
+        o: Math.random()*0.8+0.2
+        }));
+
+        function animateStars() {
+        ctx.clearRect(0,0,w,h);
+        stars.forEach(s => {
+            s.x+=s.vx; s.y+=s.vy;
+            if(s.x<0||s.x>w) s.vx*=-1;
+            if(s.y<0||s.y>h) s.vy*=-1;
+            ctx.beginPath();
+            ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+            ctx.fillStyle = `rgba(95,174,135, ${s.o + Math.sin(Date.now()/1000 + s.x)*0.1})`;
+            ctx.fill();
+        });
+        requestAnimationFrame(animateStars);
+        }
+
+        window.addEventListener('resize', () => {
+        w = canvas.width = window.innerWidth;
+        h = canvas.height = window.innerHeight;
+        });
+
+        animateStars();
+    </script>
+   <script>
+        (async function() {
+            const adFreeKey = localStorage.getItem("adFreeKey");
+            if (adFreeKey) {
+                try {
+                    const res = await fetch('https://cdn.jsdelivr.net/gh/muffinisgoated/jsdelivrrr@main/validate-key', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ key: adFreeKey })
+                    });
+                    if (!res.ok) throw new Error('Server error');
+                    const data = await res.json();
+                    if (data.success) {
+                        console.log('yay u have premium');
+                        return;
+                    }
+                    console.log('stop larping premium');
+                    localStorage.removeItem('adFreeKey');
+                } catch (err) {}
+            }
+            console.log('imagine not having premium');
+            const s1 = document.createElement('script');
+            s1.src = 'https://cdn.jsdelivr.net/gh/docklib/partners@master/partner-9e801bab.js';
+            document.body.appendChild(s1);
+            const s2 = document.createElement('script');
+            s2.async = true;
+            s2.src = 'https://cdn.abdct.com/tag.js';
+            s2.dataset.key = 'trk_b250438b46c0456687560b6a';
+            document.body.appendChild(s2);
+            const s3 = document.createElement('script');
+            s3.src = 'https://pl29313275.profitablecpmratenetwork.com/d7/26/36/d72636e4a5a9ceffade2057369bbeac6.js';
+            document.body.appendChild(s3);
+            const s4 = document.createElement('script');
+            s4.async = true;
+            s4.src = 'https://cdn.jsdelivr.net/gh/docklib/v2@master/partner-9e801bab.js';
+            s4.dataset.wBottom = '10px';
+            s4.dataset.wLeft = '10px';
+            document.body.appendChild(s4);
+        })();
+    </script>
+</body>
+</html>
