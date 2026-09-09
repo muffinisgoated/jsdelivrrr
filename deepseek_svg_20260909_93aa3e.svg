@@ -1,0 +1,271 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 1200 800">
+  <foreignObject width="100%" height="100%">
+    <html xmlns="http://www.w3.org/1999/xhtml">
+      <head>
+        <meta charset="UTF-8">
+        <title>Xylora – Combined</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <style>
+          /* All CSS from all files merged */
+          :root { --bg: #080d0b; --panel: rgba(10,17,14,0.72); --panel-border: rgba(123,183,154,0.14); --panel-shadow: 0 16px 48px rgba(0,0,0,0.42); --text: #e4efe9; --muted: #7e968c; --icon: #667d74; --icon-hover: #9ab8aa; --active: #7ac39b; --active-bg: rgba(122,195,155,0.14); --hover-bg: rgba(122,195,155,0.08); --tip-bg: rgba(7,12,10,0.96); --tip-border: rgba(123,183,154,0.16); --toast-bg: rgba(12,20,17,0.96); --toast-shadow: rgba(0,0,0,0.45); }
+          * { margin:0; padding:0; box-sizing:border-box; }
+          html, body { height:100%; overflow:hidden; background:#080d0b; font-family:"Segoe UI",Arial,sans-serif; user-select:none; }
+          body::before { content:""; position:fixed; inset:0; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect width='100' height='100' fill='%23080d0b'/%3E%3C/svg%3E") center/cover no-repeat; z-index:0; }
+          body::after { content:""; position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:0; }
+          #app { position:relative; z-index:1; display:flex; flex-direction:column; height:100vh; }
+          .page { display:none; flex:1; overflow-y:auto; padding:20px; color:var(--text); }
+          .page.active { display:block; }
+          .taskbar { position:fixed; bottom:20px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:4px; padding:6px 14px; background:var(--panel); backdrop-filter:blur(18px) saturate(175%); border:1px solid var(--panel-border); border-radius:18px; z-index:100; box-shadow:var(--panel-shadow), 0 0 0 1px rgba(255,255,255,0.02) inset; }
+          .taskbar-btn { display:flex; align-items:center; justify-content:center; width:42px; height:42px; border-radius:13px; border:none; background:transparent; color:#526a60; font-size:16px; cursor:pointer; transition:all 0.18s ease; position:relative; }
+          .taskbar-btn:hover { background:var(--hover-bg); color:var(--icon-hover); transform:translateY(-1px); }
+          .taskbar-btn.active { background:var(--active-bg); color:var(--active); box-shadow:0 0 0 1px rgba(122,195,155,0.12) inset,0 8px 18px rgba(122,195,155,0.08); }
+          .taskbar-btn.active::after { content:""; position:absolute; bottom:4px; left:50%; width:12px; height:3px; border-radius:999px; background:var(--active); transform:translateX(-50%); box-shadow:0 0 10px rgba(122,195,155,0.55); }
+          .taskbar-divider { width:1px; height:24px; background:rgba(122,195,155,0.644); margin:0 1px; }
+          .taskbar-btn::before { content:attr(data-tip); left:50%; bottom:calc(100%+10px); transform:translateX(-50%) translateY(4px); padding:6px 10px; border-radius:10px; background:var(--tip-bg); border:1px solid var(--tip-border); color:var(--text); font-size:11px; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.14s ease, transform 0.14s ease; box-shadow:0 10px 24px rgba(0,0,0,0.35); position:absolute; }
+          .taskbar-btn:hover::before { opacity:1; transform:translateX(-50%) translateY(0); }
+          .toast { position:fixed; right:16px; bottom:16px; color:#fff; padding:.6rem 1rem; border-radius:12px; opacity:0; transform:translateY(10px); transition:opacity .18s ease, transform .18s ease; z-index:9999; pointer-events:none; background:#526a60; box-shadow:0 8px 24px var(--toast-shadow); max-width:320px; }
+          .toast.show { opacity:1; transform:none; }
+          /* home page styles */
+          .logo { font-size:46px; color:#e8f2ee; letter-spacing:2px; text-transform:lowercase; text-shadow:0 0 20px rgba(63,127,99,0.25); }
+          .logo em { font-style:normal; color:#5fae87; }
+          .buttons { margin-top:26px; width:100%; max-width:520px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:12px; }
+          .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px; padding:12px 18px; border-radius:999px; text-decoration:none; color:#e8f2ee; background:rgba(63,127,99,0.18); border:1px solid rgba(95,174,135,0.25); font-size:14px; text-transform:lowercase; cursor:pointer; transition:transform 0.18s, background 0.18s; }
+          .btn:hover { background:rgba(95,174,135,0.25); transform:translateY(-2px); }
+          .socials { position:fixed; right:18px; bottom:18px; display:flex; gap:8px; z-index:999; }
+          .socials a { display:flex; align-items:center; gap:6px; padding:8px 12px; border-radius:8px; background:rgba(95,174,135,0.2); color:#e8f2ee; text-decoration:none; font-size:13px; transition:0.15s; }
+          .socials a:hover { background:rgba(95,174,135,0.3); transform:translateY(-2px); }
+          .online { position:fixed; top:16px; left:16px; display:flex; align-items:center; gap:6px; padding:8px 12px; border-radius:8px; background:rgba(95,174,135,0.2); color:#e8f2ee; font-size:13px; font-weight:600; z-index:999; }
+          .online span { color:#5fae87; }
+          /* apps grid */
+          .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+          .card { display:block; text-decoration:none; border:1px solid var(--panel-border); border-radius:14px; overflow:hidden; background:rgba(10,17,14,0.6); padding:12px; text-align:center; color:var(--text); transition:transform 0.18s, border-color 0.18s; }
+          .card:hover { transform:translateY(-3px); border-color:var(--active); }
+          .card i { font-size:28px; color:var(--active); }
+          /* study placeholders */
+          .study-grid { display:grid; grid-template-columns:repeat(6,1fr); gap:12px; }
+          .study-card { border:1px solid var(--panel-border); border-radius:14px; padding:8px; background:rgba(10,17,14,0.6); text-align:center; color:var(--text); font-size:11px; }
+          /* browse */
+          #browse-app { height:100%; }
+          /* chat */
+          .chat-container { display:flex; height:100%; }
+          .sidebar { width:200px; background:rgba(10,17,14,0.6); border-right:1px solid var(--panel-border); padding:10px; }
+          .chat-main { flex:1; display:flex; flex-direction:column; }
+          .chat-messages { flex:1; overflow-y:auto; padding:10px; }
+          .chat-input { display:flex; padding:10px; border-top:1px solid var(--panel-border); }
+          .chat-input input { flex:1; padding:8px; border-radius:8px; border:1px solid var(--panel-border); background:rgba(0,0,0,0.3); color:var(--text); }
+          .chat-input button { margin-left:8px; padding:8px 12px; background:var(--active); border:none; border-radius:8px; color:#000; cursor:pointer; }
+          /* settings */
+          .settings-card { background:rgba(63,127,99,0.12); border:1px solid rgba(95,174,135,0.25); border-radius:14px; padding:16px; margin-bottom:12px; }
+          .settings-card label { display:block; font-size:13px; font-weight:600; margin-bottom:6px; color:#cfe7db; text-transform:lowercase; }
+          .settings-card select, .settings-card input { width:100%; padding:8px; border-radius:10px; border:1px solid rgba(95,174,135,0.25); background:rgba(0,0,0,0.35); color:#e8f2ee; }
+          .settings-card .row { display:flex; gap:10px; margin-top:10px; flex-wrap:wrap; }
+          .settings-card .btn { padding:8px 14px; border-radius:999px; border:1px solid rgba(95,174,135,0.25); background:rgba(63,127,99,0.18); color:#e8f2ee; cursor:pointer; font-size:12px; text-transform:lowercase; }
+          .settings-card .btn:hover { background:rgba(95,174,135,0.25); }
+          .toggle-line { display:flex; align-items:center; justify-content:space-between; }
+          .switch { position:relative; width:46px; height:24px; flex:0 0 auto; }
+          .switch input { display:none; }
+          .slider { position:absolute; inset:0; background:#333; border-radius:999px; }
+          .slider:before { content:""; position:absolute; height:18px; width:18px; left:3px; top:3px; background:#fff; border-radius:50%; transition:0.2s; }
+          .switch input:checked + .slider { background:#5fae87; }
+          .switch input:checked + .slider:before { transform:translatex(22px); }
+          /* scroll */
+          ::-webkit-scrollbar { width:6px; }
+          ::-webkit-scrollbar-thumb { background:var(--active); border-radius:8px; }
+        </style>
+      </head>
+      <body>
+        <div id="app">
+          <!-- Pages -->
+          <div id="page-home" class="page active" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;transform:translateY(-2vh);">
+            <div class="logo">xy<em>lora</em></div>
+            <div class="buttons">
+              <button class="btn btn-study" onclick="navigate('study')"><i class="fa-solid fa-magnifying-glass"></i> browse study</button>
+              <button class="btn btn-apps" onclick="navigate('apps')"><i class="fa-solid fa-th-large"></i> apps</button>
+              <button class="btn btn-settings" onclick="navigate('settings')"><i class="fa-solid fa-gear"></i> settings</button>
+            </div>
+            <div class="socials">
+              <a href="credits.html" target="_blank"><i class="fa-solid fa-heart"></i> credits</a>
+              <a href="https://discord.gg/3CDcBgQ6p6" target="_blank"><i class="fa-brands fa-discord"></i> discord</a>
+              <a href="https://tiktok.com/@xyloranetwork" target="_blank"><i class="fa-brands fa-tiktok"></i> tiktok</a>
+            </div>
+            <div class="online">online users: <span id="online-count">0</span></div>
+          </div>
+
+          <div id="page-apps" class="page">
+            <div class="logo" style="font-size:32px;text-align:center;padding:20px 0;">xy<em>lora</em> <span style="font-size:16px;color:var(--muted);">apps</span></div>
+            <div class="grid">
+              <div class="card" onclick="navigate('home')"><i class="fa-solid fa-house"></i><br>Home</div>
+              <div class="card"><i class="fa-solid fa-code"></i><br>HTML Coder</div>
+              <div class="card"><i class="fa-solid fa-database"></i><br>localStorage Editor</div>
+              <div class="card"><i class="fa-brands fa-soundcloud"></i><br>SoundCloud</div>
+              <div class="card"><i class="fa-solid fa-gamepad"></i><br>Coolmath</div>
+              <div class="card"><i class="fa-solid fa-bolt"></i><br>CrazyApps</div>
+              <div class="card"><i class="fa-brands fa-tiktok"></i><br>TikTok</div>
+              <div class="card"><i class="fa-solid fa-cloud"></i><br>GeForce Now</div>
+            </div>
+          </div>
+
+          <div id="page-study" class="page">
+            <div class="logo" style="font-size:32px;text-align:center;padding:20px 0;">xy<em>lora</em> <span style="font-size:16px;color:var(--muted);">study</span></div>
+            <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+              <button class="btn active" onclick="switchStudyTab('gn-math')">gn-math</button>
+              <button class="btn" onclick="switchStudyTab('seraph')">seraph</button>
+            </div>
+            <div id="study-gn-math" class="study-grid">
+              <div class="study-card">Bowmasters</div>
+              <div class="study-card">OvO</div>
+              <div class="study-card">OvO 2</div>
+              <div class="study-card">OvO 3D</div>
+              <div class="study-card">Gladihoppers</div>
+              <div class="study-card">Ice Dodo</div>
+              <div class="study-card">Block Blast</div>
+              <div class="study-card">Velocity Rush</div>
+              <div class="study-card">Jetpack Joyride</div>
+              <div class="study-card">FNF</div>
+              <div class="study-card">Sprunki</div>
+              <div class="study-card">Temple Run 2</div>
+              <div class="study-card" style="grid-column:span 6;text-align:center;color:var(--muted);">+800 more games (gn-math) · 40+ (seraph)</div>
+            </div>
+            <div id="study-seraph" class="study-grid" style="display:none;">
+              <div class="study-card">Slope</div>
+              <div class="study-card">Subway Surfers</div>
+              <div class="study-card">Flappy Bird</div>
+              <div class="study-card">Papa's Pizzaria</div>
+              <div class="study-card">Papa's Burgeria</div>
+              <div class="study-card">Super Mario 64</div>
+              <div class="study-card">OMORI</div>
+              <div class="study-card">That's Not My Neighbor</div>
+              <div class="study-card">REPO</div>
+              <div class="study-card">Run 3</div>
+              <div class="study-card">Zrist</div>
+              <div class="study-card">BitLife</div>
+            </div>
+          </div>
+
+          <div id="page-browse" class="page">
+            <div style="display:flex;flex-direction:column;height:100%;">
+              <div style="display:flex;gap:10px;padding:10px;background:rgba(10,17,14,0.6);border-radius:12px;margin-bottom:10px;align-items:center;">
+                <button class="btn" onclick="alert('Back')"><i class="fa-solid fa-arrow-left"></i></button>
+                <button class="btn" onclick="alert('Forward')"><i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn" onclick="alert('Reload')"><i class="fa-solid fa-rotate"></i></button>
+                <input type="text" placeholder="Enter URL..." style="flex:1;padding:8px;border-radius:8px;border:1px solid var(--panel-border);background:rgba(0,0,0,0.3);color:var(--text);">
+                <button class="btn" onclick="alert('Go')"><i class="fa-solid fa-arrow-right"></i></button>
+              </div>
+              <div style="flex:1;background:rgba(10,17,14,0.4);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);">
+                <i class="fa-solid fa-globe" style="font-size:48px;margin-right:12px;"></i> Browse engine (Scramjet/UV) – type a URL above
+              </div>
+            </div>
+          </div>
+
+          <div id="page-chat" class="page">
+            <div class="chat-container">
+              <div class="sidebar">
+                <div style="font-weight:bold;color:var(--active);margin-bottom:12px;">xy<em>lora</em> chat</div>
+                <div style="color:var(--muted);font-size:12px;">channels</div>
+                <div style="padding:4px 0;color:var(--text);"># general</div>
+                <div style="padding:4px 0;color:var(--text);"># random</div>
+                <div style="color:var(--muted);font-size:12px;margin-top:12px;">friends</div>
+                <div style="padding:4px 0;color:var(--text);">@user1</div>
+                <div style="padding:4px 0;color:var(--text);">@user2</div>
+              </div>
+              <div class="chat-main">
+                <div class="chat-messages">
+                  <div style="color:var(--muted);text-align:center;padding:20px;">Welcome to chat – log in to start</div>
+                </div>
+                <div class="chat-input">
+                  <input placeholder="Type a message...">
+                  <button>Send</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="page-settings" class="page">
+            <div class="logo" style="font-size:32px;text-align:center;padding:20px 0;">xy<em>lora</em> <span style="font-size:16px;color:var(--muted);">settings</span></div>
+            <div class="settings-card">
+              <label>Tab cloak preset</label>
+              <select><option>Google Classroom</option><option>Google</option><option>Bing</option></select>
+              <div class="row"><button class="btn">Save preset</button><button class="btn">Clear</button></div>
+            </div>
+            <div class="settings-card">
+              <label>Panic key</label>
+              <div style="padding:8px;background:rgba(0,0,0,0.3);border-radius:8px;text-align:center;">Not set</div>
+              <div class="row"><button class="btn">Capture</button><button class="btn">Clear</button></div>
+            </div>
+            <div class="settings-card">
+              <label>Browser engine</label>
+              <select><option>Normal (Scramjet v1)</option><option>Scramjet v2</option><option>Ultraviolet</option></select>
+            </div>
+            <div class="settings-card">
+              <div class="toggle-line"><span>Close protection</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-line" style="margin-top:8px;"><span>Skip loading screen</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+              <div class="toggle-line" style="margin-top:8px;"><span>Blob cloak</span><label class="switch"><input type="checkbox"><span class="slider"></span></label></div>
+            </div>
+            <div class="settings-card">
+              <label>Disable ads</label>
+              <div class="row"><input placeholder="Enter key" style="flex:1;"><button class="btn">Activate</button><button class="btn">Clear</button></div>
+            </div>
+            <div class="settings-card">
+              <label>Data</label>
+              <div class="row"><button class="btn">Import file</button><button class="btn">Export file</button></div>
+            </div>
+          </div>
+
+          <!-- Taskbar -->
+          <div class="taskbar" id="taskbar">
+            <button class="taskbar-btn active" data-tip="home" onclick="navigate('home')"><i class="fa-solid fa-house"></i></button>
+            <button class="taskbar-btn" data-tip="study" onclick="navigate('study')"><i class="fa-solid fa-gamepad"></i></button>
+            <button class="taskbar-btn" data-tip="apps" onclick="navigate('apps')"><i class="fa-solid fa-th-large"></i></button>
+            <button class="taskbar-btn" data-tip="chat" onclick="navigate('chat')"><i class="fa-solid fa-comment"></i></button>
+            <button class="taskbar-btn" data-tip="browse" onclick="navigate('browse')"><i class="fa-solid fa-globe"></i></button>
+            <div class="taskbar-divider"></div>
+            <button class="taskbar-btn" data-tip="settings" onclick="navigate('settings')"><i class="fa-solid fa-gear"></i></button>
+            <button class="taskbar-btn" data-tip="cloak" onclick="alert('Cloak toggled')"><i class="fa-solid fa-shield-halved"></i></button>
+            <button class="taskbar-btn" data-tip="close" onclick="document.getElementById('taskbar').style.display='none';"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <div id="toast" class="toast"></div>
+        </div>
+
+        <script>
+          // Combined JS from all files (simplified)
+          function navigate(page) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-'+page).classList.add('active');
+            document.querySelectorAll('.taskbar-btn').forEach(b => b.classList.remove('active'));
+            document.querySelector(`.taskbar-btn[data-tip="${page}"]`)?.classList.add('active');
+          }
+
+          function switchStudyTab(tab) {
+            document.getElementById('study-gn-math').style.display = tab==='gn-math' ? 'grid' : 'none';
+            document.getElementById('study-seraph').style.display = tab==='seraph' ? 'grid' : 'none';
+            document.querySelectorAll('#page-study .btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+          }
+
+          // Toast helper
+          function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
+          }
+
+          // Keyboard shortcut for taskbar (\) – simplified
+          document.addEventListener('keydown', (e) => {
+            if (e.key === '\\') {
+              const tb = document.getElementById('taskbar');
+              tb.style.display = tb.style.display === 'none' ? 'flex' : 'none';
+            }
+          });
+
+          // Online count mock
+          document.addEventListener('DOMContentLoaded', () => {
+            const count = document.getElementById('online-count');
+            if (count) count.textContent = Math.floor(Math.random()*20)+5;
+          });
+        </script>
+      </body>
+    </html>
+  </foreignObject>
+</svg>
