@@ -1,0 +1,346 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1200" font-family="'Segoe UI',Arial,sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080d0b"/>
+      <stop offset="100%" stop-color="#0f1a15"/>
+    </linearGradient>
+    <linearGradient id="htmlGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#e34c26"/>
+      <stop offset="100%" stop-color="#f06529"/>
+    </linearGradient>
+    <linearGradient id="jsGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f7df1e"/>
+      <stop offset="100%" stop-color="#f0db4f"/>
+    </linearGradient>
+    <linearGradient id="cssGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#264de4"/>
+      <stop offset="100%" stop-color="#2965f1"/>
+    </linearGradient>
+    <linearGradient id="jsonGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f5a623"/>
+      <stop offset="100%" stop-color="#f7c948"/>
+    </linearGradient>
+    <linearGradient id="swGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6c5ce7"/>
+      <stop offset="100%" stop-color="#a29bfe"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#000" flood-opacity="0.4"/>
+    </filter>
+    <marker id="arrow" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#5fae87" opacity="0.6"/>
+    </marker>
+    <marker id="arrowJs" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#f7df1e" opacity="0.6"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1600" height="1200" fill="url(#bgGrad)"/>
+
+  <!-- Title -->
+  <text x="800" y="48" text-anchor="middle" fill="#5fae87" font-size="28" font-weight="700" letter-spacing="4" filter="url(#glow)">XYLORA — PROJECT ARCHITECTURE</text>
+  <text x="800" y="70" text-anchor="middle" fill="#7e968c" font-size="11" letter-spacing="2">full file map · 12 html · 5 js · 2 css · 2 workers · 1 service worker</text>
+
+  <!-- ============ LEGEND ============ -->
+  <g transform="translate(30, 90)">
+    <rect x="0" y="0" width="260" height="120" rx="10" fill="rgba(10,17,14,0.8)" stroke="rgba(95,174,135,0.15)" stroke-width="1"/>
+    <text x="14" y="22" fill="#e8f2ee" font-size="11" font-weight="600">LEGEND</text>
+    <rect x="14" y="32" width="12" height="12" rx="2" fill="url(#htmlGrad)"/>
+    <text x="34" y="42" fill="#93a79f" font-size="10">HTML pages</text>
+    <rect x="14" y="52" width="12" height="12" rx="2" fill="url(#jsGrad)"/>
+    <text x="34" y="62" fill="#93a79f" font-size="10">JavaScript modules</text>
+    <rect x="14" y="72" width="12" height="12" rx="2" fill="url(#cssGrad)"/>
+    <text x="34" y="82" fill="#93a79f" font-size="10">CSS stylesheets</text>
+    <rect x="14" y="92" width="12" height="12" rx="2" fill="url(#swGrad)"/>
+    <text x="34" y="102" fill="#93a79f" font-size="10">Service / Bare workers</text>
+  </g>
+
+  <!-- ============ HTML FILES (left side) ============ -->
+
+  <!-- index.html (entry) -->
+  <g transform="translate(60, 140)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.95"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">📄 index.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">entry point · taskbar</text>
+  </g>
+
+  <!-- home.html -->
+  <g transform="translate(60, 200)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.9"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">🏠 home.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">landing · socials</text>
+  </g>
+
+  <!-- apps.html -->
+  <g transform="translate(60, 260)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.9"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">📱 apps.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">app grid · search</text>
+  </g>
+
+  <!-- browse.html -->
+  <g transform="translate(60, 320)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.9"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">🌐 browse.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">browser · scramjet</text>
+  </g>
+
+  <!-- chat.html -->
+  <g transform="translate(60, 380)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.9"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">💬 chat.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">messaging · socket.io</text>
+  </g>
+
+  <!-- credits.html -->
+  <g transform="translate(60, 440)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.85"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">❤️ credits.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">attributions</text>
+  </g>
+
+  <!-- loading.html -->
+  <g transform="translate(60, 500)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.85"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">⏳ loading.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">boot screen</text>
+  </g>
+
+  <!-- settings.html -->
+  <g transform="translate(60, 560)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.9"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">⚙️ settings.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">config · panic · cloak</text>
+  </g>
+
+  <!-- study.html -->
+  <g transform="translate(60, 620)" filter="url(#shadow)">
+    <rect width="160" height="42" rx="8" fill="url(#htmlGrad)" opacity="0.9"/>
+    <text x="80" y="26" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">🎮 study.html</text>
+    <text x="80" y="39" text-anchor="middle" fill="#ffd9c2" font-size="7">games · gn-math/seraph</text>
+  </g>
+
+  <!-- ============ JS FILES (center-left) ============ -->
+
+  <!-- new.js -->
+  <g transform="translate(300, 155)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#jsGrad)" opacity="0.9"/>
+    <text x="75" y="17" text-anchor="middle" fill="#000" font-size="10" font-weight="600">📜 new.js</text>
+    <text x="75" y="31" text-anchor="middle" fill="#4a3a00" font-size="7">shared utilities</text>
+  </g>
+
+  <!-- chat.js -->
+  <g transform="translate(300, 230)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#jsGrad)" opacity="0.9"/>
+    <text x="75" y="17" text-anchor="middle" fill="#000" font-size="10" font-weight="600">📜 chat.js</text>
+    <text x="75" y="31" text-anchor="middle" fill="#4a3a00" font-size="7">socket.io logic</text>
+  </g>
+
+  <!-- cap.min.js -->
+  <g transform="translate(300, 305)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#jsGrad)" opacity="0.85"/>
+    <text x="75" y="17" text-anchor="middle" fill="#000" font-size="10" font-weight="600">📜 cap.min.js</text>
+    <text x="75" y="31" text-anchor="middle" fill="#4a3a00" font-size="7">captcha widget</text>
+  </g>
+
+  <!-- scramjet.all.js (browser) -->
+  <g transform="translate(300, 380)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#jsGrad)" opacity="0.85"/>
+    <text x="75" y="17" text-anchor="middle" fill="#000" font-size="10" font-weight="600">📜 scramjet.all.js</text>
+    <text x="75" y="31" text-anchor="middle" fill="#4a3a00" font-size="7">browser engine</text>
+  </g>
+
+  <!-- index.mjs (BareMux) -->
+  <g transform="translate(300, 455)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#jsGrad)" opacity="0.85"/>
+    <text x="75" y="17" text-anchor="middle" fill="#000" font-size="10" font-weight="600">📜 index.mjs</text>
+    <text x="75" y="31" text-anchor="middle" fill="#4a3a00" font-size="7">BareMux module</text>
+  </g>
+
+  <!-- ============ WORKERS (center) ============ -->
+
+  <!-- bareworker.js -->
+  <g transform="translate(530, 160)" filter="url(#shadow)">
+    <rect width="170" height="50" rx="10" fill="url(#swGrad)" opacity="0.9"/>
+    <text x="85" y="20" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">⚙️ bareworker.js</text>
+    <text x="85" y="36" text-anchor="middle" fill="#d5d0ff" font-size="8">MessagePort · fetch/websocket</text>
+    <text x="85" y="47" text-anchor="middle" fill="#d5d0ff" font-size="7">BareMux transport bridge</text>
+  </g>
+
+  <!-- sj.js -->
+  <g transform="translate(530, 240)" filter="url(#shadow)">
+    <rect width="170" height="42" rx="10" fill="url(#swGrad)" opacity="0.85"/>
+    <text x="85" y="18" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">⚙️ sj.js</text>
+    <text x="85" y="33" text-anchor="middle" fill="#d5d0ff" font-size="8">Scramjet controller SW</text>
+  </g>
+
+  <!-- sw.js -->
+  <g transform="translate(530, 310)" filter="url(#shadow)">
+    <rect width="170" height="50" rx="10" fill="url(#swGrad)" opacity="0.9"/>
+    <text x="85" y="20" text-anchor="middle" fill="#fff" font-size="11" font-weight="600">⚙️ sw.js</text>
+    <text x="85" y="36" text-anchor="middle" fill="#d5d0ff" font-size="8">Service Worker</text>
+    <text x="85" y="47" text-anchor="middle" fill="#d5d0ff" font-size="7">adblock · scramjet route</text>
+  </g>
+
+  <!-- ============ CSS FILES (center-right) ============ -->
+
+  <!-- browse.css -->
+  <g transform="translate(780, 170)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#cssGrad)" opacity="0.9"/>
+    <text x="75" y="17" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">🎨 browse.css</text>
+    <text x="75" y="31" text-anchor="middle" fill="#b3c6ff" font-size="7">browser UI styles</text>
+  </g>
+
+  <!-- chat.css -->
+  <g transform="translate(780, 240)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#cssGrad)" opacity="0.9"/>
+    <text x="75" y="17" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">🎨 chat.css</text>
+    <text x="75" y="31" text-anchor="middle" fill="#b3c6ff" font-size="7">chat UI styles</text>
+  </g>
+
+  <!-- icons.css -->
+  <g transform="translate(780, 310)" filter="url(#shadow)">
+    <rect width="150" height="38" rx="8" fill="url(#cssGrad)" opacity="0.85"/>
+    <text x="75" y="17" text-anchor="middle" fill="#fff" font-size="10" font-weight="600">🎨 icons.css</text>
+    <text x="75" y="31" text-anchor="middle" fill="#b3c6ff" font-size="7">icon library</text>
+  </g>
+
+  <!-- ============ GROUPS / FOLDERS (right side) ============ -->
+
+  <!-- study/ folder -->
+  <g transform="translate(1010, 140)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.25)" stroke="rgba(95,174,135,0.3)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 study/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">40+ game subdirs (seraph)</text>
+  </g>
+
+  <!-- study2/ folder -->
+  <g transform="translate(1010, 210)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.25)" stroke="rgba(95,174,135,0.3)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 study2/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">800+ game subdirs (gn-math)</text>
+  </g>
+
+  <!-- apps/ folder -->
+  <g transform="translate(1010, 280)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.25)" stroke="rgba(95,174,135,0.3)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 apps/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">htmlcoder, soundcloud, etc</text>
+  </g>
+
+  <!-- uv/ folder -->
+  <g transform="translate(1010, 350)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.25)" stroke="rgba(95,174,135,0.3)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 uv/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">ultraviolet · browse.html</text>
+  </g>
+
+  <!-- sjv2/ folder -->
+  <g transform="translate(1010, 420)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.25)" stroke="rgba(95,174,135,0.3)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 sjv2/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">scramjet v2 controller</text>
+  </g>
+
+  <!-- images/ folder -->
+  <g transform="translate(1010, 490)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.2)" stroke="rgba(95,174,135,0.2)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 images/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">themes · icons · covers</text>
+  </g>
+
+  <!-- css/ folder -->
+  <g transform="translate(1010, 560)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.2)" stroke="rgba(95,174,135,0.2)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 css/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">browse.css, chat.css, icons.css</text>
+  </g>
+
+  <!-- storage/ folder -->
+  <g transform="translate(1010, 630)" filter="url(#shadow)">
+    <rect width="160" height="44" rx="8" fill="rgba(63,127,99,0.2)" stroke="rgba(95,174,135,0.2)" stroke-width="1"/>
+    <text x="80" y="18" text-anchor="middle" fill="#5fae87" font-size="11" font-weight="600">📁 storage/</text>
+    <text x="80" y="33" text-anchor="middle" fill="#7e968c" font-size="8">js · browser · css</text>
+  </g>
+
+  <!-- ============ CONNECTIONS ============ -->
+
+  <!-- index.html → taskbar buttons → pages -->
+  <line x1="140" y1="161" x2="300" y2="174" stroke="#f06529" stroke-width="1.2" opacity="0.3" marker-end="url(#arrow)"/>
+  <line x1="140" y1="221" x2="300" y2="249" stroke="#f06529" stroke-width="1.2" opacity="0.3" marker-end="url(#arrow)"/>
+  <line x1="140" y1="281" x2="300" y2="324" stroke="#f06529" stroke-width="1.2" opacity="0.3" marker-end="url(#arrow)"/>
+  <line x1="140" y1="341" x2="300" y2="399" stroke="#f06529" stroke-width="1.2" opacity="0.3" marker-end="url(#arrow)"/>
+  <line x1="140" y1="581" x2="300" y2="474" stroke="#f06529" stroke-width="1.2" opacity="0.3" marker-end="url(#arrow)"/>
+
+  <!-- home.html → apps / study / settings -->
+  <line x1="140" y1="260" x2="1010" y2="300" stroke="#f06529" stroke-width="0.8" opacity="0.2" stroke-dasharray="4,4"/>
+  <line x1="140" y1="260" x2="1010" y2="160" stroke="#f06529" stroke-width="0.8" opacity="0.2" stroke-dasharray="4,4"/>
+  <line x1="140" y1="260" x2="300" y2="474" stroke="#f06529" stroke-width="0.8" opacity="0.2" stroke-dasharray="4,4"/>
+
+  <!-- apps.html → apps/ folder -->
+  <line x1="140" y1="281" x2="1010" y2="302" stroke="#f06529" stroke-width="0.8" opacity="0.25"/>
+
+  <!-- study.html → study/ + study2/ -->
+  <line x1="140" y1="641" x2="1010" y2="162" stroke="#f06529" stroke-width="0.8" opacity="0.25"/>
+  <line x1="140" y1="641" x2="1010" y2="232" stroke="#f06529" stroke-width="0.8" opacity="0.25"/>
+
+  <!-- browse.html → scramjet + index.mjs + sw.js -->
+  <line x1="220" y1="341" x2="300" y2="399" stroke="#f0db4f" stroke-width="1.2" opacity="0.4" marker-end="url(#arrowJs)"/>
+  <line x1="220" y1="341" x2="300" y2="474" stroke="#f0db4f" stroke-width="1.2" opacity="0.4" marker-end="url(#arrowJs)"/>
+  <line x1="220" y1="341" x2="530" y2="335" stroke="#6c5ce7" stroke-width="1.2" opacity="0.4" marker-end="url(#arrow)"/>
+
+  <!-- chat.html → chat.js + cap.min.js -->
+  <line x1="220" y1="401" x2="300" y2="249" stroke="#f0db4f" stroke-width="1.2" opacity="0.4" marker-end="url(#arrowJs)"/>
+  <line x1="220" y1="401" x2="300" y2="324" stroke="#f0db4f" stroke-width="1.2" opacity="0.4" marker-end="url(#arrowJs)"/>
+
+  <!-- settings.html → sw.js (config) -->
+  <line x1="220" y1="581" x2="530" y2="335" stroke="#6c5ce7" stroke-width="0.8" opacity="0.25" stroke-dasharray="4,4"/>
+
+  <!-- bareworker.js ↔ sw.js (BareMux) -->
+  <line x1="615" y1="185" x2="615" y2="310" stroke="#6c5ce7" stroke-width="1" opacity="0.3"/>
+
+  <!-- sw.js → sj.js (scramjet) -->
+  <line x1="615" y1="285" x2="615" y2="261" stroke="#6c5ce7" stroke-width="0.8" opacity="0.3"/>
+
+  <!-- BareMux index.mjs → bareworker.js -->
+  <line x1="450" y1="474" x2="530" y2="185" stroke="#f0db4f" stroke-width="0.8" opacity="0.3" stroke-dasharray="4,4" marker-end="url(#arrowJs)"/>
+
+  <!-- ============ BOTTOM SUMMARY ============ -->
+  <g transform="translate(60, 740)">
+    <rect x="0" y="0" width="1480" height="130" rx="12" fill="rgba(10,17,14,0.7)" stroke="rgba(95,174,135,0.1)" stroke-width="1"/>
+    <text x="20" y="24" fill="#5fae87" font-size="12" font-weight="600">📊 FILE SUMMARY</text>
+
+    <!-- HTML row -->
+    <rect x="20" y="38" width="16" height="16" rx="3" fill="url(#htmlGrad)"/>
+    <text x="42" y="51" fill="#e8f2ee" font-size="11">12 HTML pages</text>
+
+    <!-- JS row -->
+    <rect x="200" y="38" width="16" height="16" rx="3" fill="url(#jsGrad)"/>
+    <text x="222" y="51" fill="#e8f2ee" font-size="11">5+ JavaScript modules</text>
+
+    <!-- CSS row -->
+    <rect x="400" y="38" width="16" height="16" rx="3" fill="url(#cssGrad)"/>
+    <text x="422" y="51" fill="#e8f2ee" font-size="11">3 CSS stylesheets</text>
+
+    <!-- Workers row -->
+    <rect x="580" y="38" width="16" height="16" rx="3" fill="url(#swGrad)"/>
+    <text x="602" y="51" fill="#e8f2ee" font-size="11">2 workers + 1 service worker</text>
+
+    <text x="20" y="82" fill="#7e968c" font-size="10">entry: index.html → iframe loads pages · taskbar navigation · cloak + panic key · scramjet browser engine · bare-mux transport · socket.io chat</text>
+    <text x="20" y="100" fill="#7e968c" font-size="10">study: 800+ games (gn-math) + 40+ games (seraph) · apps: 13+ embedded apps · settings: cloak, panic, bg, engine, ad-free, import/export</text>
+    <text x="20" y="118" fill="#7e968c" font-size="10">service worker: adblock patterns · scramjet routing · wisp auto-switch · bare-mux integration</text>
+  </g>
+
+  <!-- ============ DECORATIVE NODES ============ -->
+  <circle cx="1600" cy="0" r="120" fill="rgba(95,174,135,0.02)"/>
+  <circle cx="0" cy="1200" r="160" fill="rgba(95,174,135,0.015)"/>
+
+</svg>
